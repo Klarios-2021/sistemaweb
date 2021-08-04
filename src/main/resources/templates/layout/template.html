@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ES"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:fragment="head">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/customstyles.css}">
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
+        <header th:fragment="header" class="pb-2">
+            <nav class="nav navbar-dark bg-dark">
+                <a class="nav-link navbar-brand active p-2" th:href="@{/}">
+                    <i class="fa fa-home"></i> Home
+                </a>
+                <li class="nav-item p-2 ms-auto" sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                            <span> Bienvenido: </span>
+                            <span sec:authentication="name"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                            <li>
+                                <form method="POST" th:action="@{/logout}">
+                                    <a class="dropdown-item"
+                                       href="#" onclick="this.parentNode.submit();">
+                                        <i class="fas fa-user-times"></i> Cerrar sesión
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            </nav>
+
+            <section class="py-2 text-white" style="background: darkcyan">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12" align="center">
+                                <h1></i>Sistema Klarios</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </header>
+
+        <footer th:fragment="footer" class="text-white mt-5 p-5 bottom-0 position-absolute w-100"
+        style = "background: cadetblue">
+            <div class="container">
+                <div class="col">
+                    <p class="lead text-center">
+                        Copyright &copy; <a href="http://www.klarios.com.ar/">Klarios</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
