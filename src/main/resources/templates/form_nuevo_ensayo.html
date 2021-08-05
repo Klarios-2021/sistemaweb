@@ -18,7 +18,7 @@
 
                         <div class="mb-3">
                             <label for="laboratorio" class="form-label">Laboratorio</label>
-                            <select id="laboratorio" class="form-select" name="laboratorio" onchange="fillSelect()" >
+                            <select id="laboratorio" class="form-select" name="laboratorio" th:onchange="fillSelect()" >
                                 <option selected th:value="${null}">Elegí un laboratorio</option>
                                 <option th:each="laboratorio: ${laboratorios}"
                                         th:value="${laboratorio}"
@@ -26,16 +26,17 @@
                                 </option>
                             </select>
                         </div>
-                        <div id="selectEstablecimiento" hidden="true" class="mb-3">
+                        <p id="asd">51</p>
+                        <!--div id="selectEstablecimiento" hidden="true" class="mb-3">
                             <label for="establecimiento" class="form-label">Establecimiento</label>
                             <select id="establecimiento" class="form-select" name="establecimiento">
                                 <option selected th:value="null">Elegí un establecimiento</option>
-                                <option th:each="establecimiento: ${laboratorios.get(0).establecimientos}"
+                                <option th:each="establecimiento: ${laboratorios..establecimientos}"
                                         th:value="${establecimiento.id}"
                                         th:text="${establecimiento.nombre}">
                                 </option>
                             </select>
-                        </div>
+                        </div-->
 
                         <div class="mb-3">
                             <label class="form-label" for="realizo">Realizó</label>
