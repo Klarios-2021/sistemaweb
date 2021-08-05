@@ -3,11 +3,24 @@
     <head>
         <div th:insert="layout/template :: head"></div>
         <title>Nuevo ensayo</title>
-        <script type="text/javascript" th:src="@{/js/funcionesNuevoEnsayo.js}"></script>
 
+        <!--script type="text/javascript" th:inline="javascript">
+            function fillSelect(laboratorios){
+                /*<![CDATA[*/
+                var laboratorios = /*[[${laboratorios.get(0).id} == id]]*/ null;
+                /*]]>*/
+                console.log(laboratorios);
+            }
+        </script-->
+        <script type="text/javascript">
+            function fillSelect(){
+                var laboratorioElegido = document.getElementById("laboratorio").value
+                console.log(laboratorioElegido)
+            }
+        </script>
     </head>
-
     <body>
+
         <div th:insert="layout/template :: header"></div>
 
         <div class="container">
@@ -18,25 +31,14 @@
 
                         <div class="mb-3">
                             <label for="laboratorio" class="form-label">Laboratorio</label>
-                            <select id="laboratorio" class="form-select" name="laboratorio" th:onchange="fillSelect()" >
-                                <option selected th:value="${null}">Elegí un laboratorio</option>
+                            <select id="laboratorio" class="form-select" name="laboratorio" th:onchange="fillSelect()">
+                                <option selected th:value="0">Elegí un laboratorio</option>
                                 <option th:each="laboratorio: ${laboratorios}"
-                                        th:value="${laboratorio}"
+                                        th:value="${laboratorio.id}"
                                         th:text="${laboratorio.nombre}">
                                 </option>
                             </select>
                         </div>
-                        <p id="asd">51</p>
-                        <!--div id="selectEstablecimiento" hidden="true" class="mb-3">
-                            <label for="establecimiento" class="form-label">Establecimiento</label>
-                            <select id="establecimiento" class="form-select" name="establecimiento">
-                                <option selected th:value="null">Elegí un establecimiento</option>
-                                <option th:each="establecimiento: ${laboratorios..establecimientos}"
-                                        th:value="${establecimiento.id}"
-                                        th:text="${establecimiento.nombre}">
-                                </option>
-                            </select>
-                        </div-->
 
                         <div class="mb-3">
                             <label class="form-label" for="realizo">Realizó</label>
