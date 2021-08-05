@@ -1,12 +1,15 @@
 package com.klarios.sistemaweb.models;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Equipo")
 @PrimaryKeyJoinColumn(name = "equipo_id")

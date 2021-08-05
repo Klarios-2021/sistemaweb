@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Nuevo laboratorio</title>
+    </head>
+
+    <body>
+        <div th:insert="layout/template :: header"></div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Nuevo laboratorio</h1><br>
+                    <form class="g-3" th:action="@{/laboratorios}" method="post" th:object="${laboratorio}">
+                        <div class="mb-3">
+                            <label class="form-label" for="nombre">Nombre</label>
+                            <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="razonSocial">Razón social</label>
+                            <input id="razonSocial" class="form-control" type="text" name="razonSocial" th:field="*{razonSocial}"/>
+                            <span th:if="${#fields.hasErrors('razonSocial')}" th:errors="*{razonSocial}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="cuit">CUIT</label>
+                            <input id="cuit" class="form-control" type="text" name="cuit" th:field="*{cuit}"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="email">E-mail</label>
+                            <input id="email" class="form-control" type="email" name="email" th:field="*{email}"/>
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="telefono">Teléfono:</label>
+                            <input id="telefono" class="form-control" type="tel" name="telefono" th:field="*{telefono}"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="website">Página web</label>
+                            <textarea id="website" class="form-control" type="text" name="website" th:field="*{website}"/>
+                        </div>
+
+                        <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                        <a class="btn btn-primary" th:href="@{'/laboratorios/'}">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
+</html>

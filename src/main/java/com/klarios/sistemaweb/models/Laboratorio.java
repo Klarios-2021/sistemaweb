@@ -1,12 +1,16 @@
 package com.klarios.sistemaweb.models;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Laboratorio")
 public class Laboratorio {
@@ -28,11 +32,11 @@ public class Laboratorio {
     @Column(name = "laboratorio_email")
     String email;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "contacto_laboratorio")
     List<Contacto> contactos = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "establecimiento_laboratorio")
     List<Establecimiento> establecimientos = new ArrayList<>();
 

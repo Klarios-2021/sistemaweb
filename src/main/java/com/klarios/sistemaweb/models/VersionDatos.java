@@ -1,13 +1,16 @@
 package com.klarios.sistemaweb.models;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "VersionDatos")
 public class VersionDatos {

@@ -18,7 +18,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <h2>Laboratorios</h2>
+                    <h2>Ensayos</h2>
                     <!--form th:action="@{/laboratorios/}" method="get" th:object="${filtro}">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" name="nombre" id="nombre" th:field="*{nombre}"/>
@@ -35,28 +35,26 @@
                     </form-->
                     <table class="table">
                         <tr>
-                            <th>Laboratorio</th>
-                            <th>Razón social</th>
-                            <th>CUIT</th>
-                            <th>E-mail</th>
-                            <th>Teléfono</th>
-                            <th>Página web</th>
+                            <th>ID</th>
+                            <th>Realizó</th>
+                            <th>Fecha realización</th>
+                            <th>Controló</th>
+                            <th>Fecha control</th>
                             <th>Detalles</th>
                         </tr>
-                        <tr th:each="laboratorio: ${laboratorios}">
-                            <td th:text="${laboratorio.nombre}"></td>
-                            <td th:text="${laboratorio.razonSocial}"></td>
-                            <td th:text="${laboratorio.cuit}"></td>
-                            <td th:text="${laboratorio.email}"></td>
-                            <td th:text="${laboratorio.telefono}"></td>
-                            <td th:text="${laboratorio.website}"></td>
-                            <td><a th:href="@{'/laboratorios/' + ${laboratorio.id}}">
+                        <tr th:each="ensayo: ${ensayos}">
+                            <td th:text="${ensayo.id}"></td>
+                            <td th:text="${ensayo.realizo}"></td>
+                            <td th:text="${ensayo.fechaRealizacion}"></td>
+                            <td th:text="${ensayo.controlo}"></td>
+                            <td th:text="${ensayo.fechaControl}"></td>
+                            <td><a th:href="@{'/ensayos/' + ${ensayo.id}}">
                                 <i class="fas fa-arrow-alt-circle-right"></i>
                             </a></td>
                         </tr>
                     </table>
-                    <a class="btn btn-primary" href="/laboratorios/nuevo">
-                        <i class="fas fa-plus"></i> Cargar nuevo laboratorio
+                    <a class="btn btn-primary" href="/ensayos/nuevo">
+                        <i class="fas fa-plus"></i> Cargar nuevo ensayo
                     </a>
                     <a class="btn btn-primary" th:href="@{'/'}">
                         <i class="fas fa-arrow-left"></i> Volver

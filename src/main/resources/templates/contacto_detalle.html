@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Laboratorio - Detalles</title>
+    </head>
+    <body>
+    <div th:insert="layout/template :: header"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 name="id" th:text="${contacto.id} + ' - ' + ${contacto.nombre} + ' ' + ${contacto.apellido}" ></h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <label>E-mail:</label>
+                        <span name="email" th:text="${contacto.email}"></span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <label>Teléfono:</label>
+                        <span name="telefono" th:text="${contacto.telefono}"></span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <label>Rol:</label>
+                        <span name="rol" th:text="${contacto.rol}"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <a class="btn btn-primary" th:href="@{'/contactos/' + ${contacto.id} + '/edicion'}">
+                        <i class="far fa-edit"></i> Editar
+                    </a>
+                    <a class="btn btn-primary" th:href="@{'/contactos/'}">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer th:replace="layout/template :: footer"></footer>
+
+    </body>
+</html>

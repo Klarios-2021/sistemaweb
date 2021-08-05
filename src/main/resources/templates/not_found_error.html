@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Not Found - Error</title>
+        <div th:insert="layout/template :: head"></div>
+    </head>
+    <body>
+        <div th:insert="layout/template :: header"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="text-danger">
+                                El recurso solicitado no existe o no esta disponible <i class="fas fa-exclamation-circle"></i>
+                            </p>
+                            <br><br>
+                            <a class="nav-link navbar-brand active p-2" th:href="@{/}">
+                                <i class="fa fa-home"></i> Ir a la página principal
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4"></div>
+            </div>
+
+        </div>
+
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
+</html>

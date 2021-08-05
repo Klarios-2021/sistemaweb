@@ -1,10 +1,13 @@
 package com.klarios.sistemaweb.models;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "Contacto")
 public class Contacto {
