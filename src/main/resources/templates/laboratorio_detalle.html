@@ -47,6 +47,11 @@
                 </div><br>
 
                 <div>
+
+                    <button class="btn btn-primary"
+                            onclick="document.getElementById('form-nueva-div').style.display = 'block'">
+                        Agregar división
+                    </button>
                     <a class="btn btn-primary" th:href="@{'/laboratorios/' + ${laboratorio.id} + '/edicion'}">
                         <i class="far fa-edit"></i> Editar
                     </a>
@@ -58,7 +63,35 @@
             </div>
 
         </div>
+
+        <div id="form-nueva-div" style="display: none">
+            <form class="g-3" th:action="@{/divisiones}" method="post" th:object="${division}">
+                <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
+                    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="tipoDivision">Tipo</label>
+                    <select id="tipoDivision" class="form-select" name="tipoDivision"
+                            th:field="*{tipo}">
+                        <option th:each="tipoDiv: ${tipos}"
+                                th:value="${tipoDiv}"
+                                th:text="${tipoDiv}"></option>
+                    </select>
+
+                </div>
+                <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+            </form>
+            <button class="btn btn-danger"
+                    onclick="document.getElementById('form-nueva-div').style.display = 'none'">
+                Cancelar
+            </button>
+        </div>
+
     </div>
+
 
     <footer th:replace="layout/template :: footer"></footer>
 

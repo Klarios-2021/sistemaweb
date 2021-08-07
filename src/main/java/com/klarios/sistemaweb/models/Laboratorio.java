@@ -32,11 +32,11 @@ public class Laboratorio {
     @Column(name = "laboratorio_email")
     String email;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "contacto_laboratorio")
     List<Contacto> contactos = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "establecimiento_laboratorio")
     List<Establecimiento> establecimientos = new ArrayList<>();
 

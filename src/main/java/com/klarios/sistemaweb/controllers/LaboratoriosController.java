@@ -1,6 +1,8 @@
 package com.klarios.sistemaweb.controllers;
 
+import com.klarios.sistemaweb.models.Division;
 import com.klarios.sistemaweb.models.Laboratorio;
+import com.klarios.sistemaweb.models.enums.TipoDivision;
 import com.klarios.sistemaweb.repositories.LaboratoriosDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,7 @@ public class LaboratoriosController {
     }
 
     @GetMapping("laboratorios/{id}")
-    public String getLaboratorio(Laboratorio laboratorio, Model model) {
+    public String getLaboratorio(Laboratorio laboratorio, Division division, Model model) {
         System.out.println("Alguien pidió el detalle de un laboratorio");
 
         Optional<Laboratorio> laboratorioOptional = laboratoriosDAO.findById(laboratorio.getId());
@@ -39,6 +41,8 @@ public class LaboratoriosController {
         if(laboratorioOptional.isPresent()){
             laboratorio = laboratorioOptional.get();
             model.addAttribute("laboratorio",laboratorio);
+            model.addAttribute("division",division);
+            model.addAttribute("tipos", TipoDivision.values());
             return "laboratorio_detalle";
         }
         else{

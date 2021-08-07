@@ -12,7 +12,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
-@Table(name = "VersionDatos")
+@Table(name = "Version")
 public class VersionDatos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

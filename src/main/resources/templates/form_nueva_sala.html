@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Nueva sala</title>
+    </head>
+
+    <body>
+        <div th:insert="layout/template :: header"></div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Nueva sala</h1><br>
+                    <form class="g-3" th:action="@{/salas}" method="post" th:object="${sala}">
+                        <div class="mb-3">
+                            <label class="form-label" for="nombre">Nombre</label>
+                            <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="tag">Tag</label>
+                            <input id="tag" class="form-control" type="text" name="tag" th:field="*{tag}"/>
+                            <span th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="uma">UMA</label>
+                            <input id="uma" class="form-control" type="text" name="uma" th:field="*{uma}"/>
+                            <span th:if="${#fields.hasErrors('uma')}" th:errors="*{uma}" style="color: red"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="altura">Altura</label>
+                            <input id="altura" class="form-control" type="text" name="altura" th:field="*{dimension.altura}"/>
+                            <span th:if="${#fields.hasErrors('dimension.altura')}" th:errors="*{dimension.altura}" style="color: red"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="ancho">Ancho</label>
+                            <input id="ancho" class="form-control" type="text" name="ancho" th:field="*{dimension.ancho}"/>
+                            <span th:if="${#fields.hasErrors('dimension.ancho')}" th:errors="*{dimension.ancho}" style="color: red"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="largo">Largo</label>
+                            <input id="largo" class="form-control" type="text" name="largo" th:field="*{dimension.largo}"/>
+                            <span th:if="${#fields.hasErrors('dimension.largo')}" th:errors="*{dimension.largo}" style="color: red"></span>
+                        </div>
+
+                        <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                        <a class="btn btn-primary" th:href="@{'/salas/'}">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
+</html>

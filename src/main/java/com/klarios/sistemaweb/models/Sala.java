@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Sala")
-@PrimaryKeyJoinColumn(name = "sala_id")
+@PrimaryKeyJoinColumn(name = "sala_id", referencedColumnName = "objeto_estudio_id")
 public class Sala extends ObjetoEstudio {
 
     @Column(name = "sala_uma")

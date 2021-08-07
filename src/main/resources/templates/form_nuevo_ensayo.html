@@ -4,20 +4,18 @@
         <div th:insert="layout/template :: head"></div>
         <title>Nuevo ensayo</title>
 
-        <!--script type="text/javascript" th:inline="javascript">
-            function fillSelect(laboratorios){
-                /*<![CDATA[*/
-                var laboratorios = /*[[${laboratorios.get(0).id} == id]]*/ null;
-                /*]]>*/
-                console.log(laboratorios);
-            }
-        </script-->
-        <script type="text/javascript">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
             function fillSelect(){
-                var laboratorioElegido = document.getElementById("laboratorio").value
-                console.log(laboratorioElegido)
+
+                var laboratorios = /*[[${laboratorios}]]*/ null;
+
+                document.getElementById("asd").innerHTML = JSON.parse(JSON.stringify(laboratorios))
+                console.log(JSON.parse(JSON.stringify(laboratorios))[0].id)
             }
+            /*]]>*/
         </script>
+
     </head>
     <body>
 
@@ -31,7 +29,7 @@
 
                         <div class="mb-3">
                             <label for="laboratorio" class="form-label">Laboratorio</label>
-                            <select id="laboratorio" class="form-select" name="laboratorio" th:onchange="fillSelect()">
+                            <select id="laboratorio" class="form-select" name="laboratorio" th:onchange="'fillSelect()'">
                                 <option selected th:value="0">Elegí un laboratorio</option>
                                 <option th:each="laboratorio: ${laboratorios}"
                                         th:value="${laboratorio.id}"
@@ -39,6 +37,8 @@
                                 </option>
                             </select>
                         </div>
+
+                        <p id="asd"></p>
 
                         <div class="mb-3">
                             <label class="form-label" for="realizo">Realizó</label>
@@ -79,5 +79,6 @@
 
         </div>
         <footer th:replace="layout/template :: footer"></footer>
+
     </body>
 </html>

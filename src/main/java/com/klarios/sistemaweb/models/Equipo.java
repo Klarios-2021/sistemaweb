@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Equipo")
-@PrimaryKeyJoinColumn(name = "equipo_id")
+@PrimaryKeyJoinColumn(name = "equipo_id", referencedColumnName = "objeto_estudio_id")
 public class Equipo extends ObjetoEstudio{
 
     @Column(name = "equipo_marca")
