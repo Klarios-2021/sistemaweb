@@ -60,6 +60,22 @@ public class LaboratoriosController {
 
         return "form_nuevo_laboratorio";
     }
+    @GetMapping("laboratorios/{id}/edicion")
+    public String getFormEdicionLaboratorio(Laboratorio laboratorio, Model model) {
+
+        System.out.println("Se solicitó el formulario para editar un laboratorio");
+
+        Optional<Laboratorio> laboratorioOptional = laboratoriosDAO.findById(laboratorio.getId());
+
+        if(laboratorioOptional.isPresent()){
+            laboratorio = laboratorioOptional.get();
+            model.addAttribute("laboratorio",laboratorio);
+            return "form_edicion_laboratorio";
+        }
+        else{
+            return "not_found_error";
+        }
+    }
 
     @PostMapping("laboratorios")
     public String crearLaboratorio(@Valid Laboratorio laboratorio, Errors errores, Model model) {
@@ -71,6 +87,18 @@ public class LaboratoriosController {
 
         laboratoriosDAO.save(laboratorio);
         return "redirect:/laboratorios";
+    }
+
+    @PostMapping("laboratorios/{id}")
+    public String editarLaboratorio(@Valid Laboratorio laboratorio, Errors errores) {
+        System.out.println("Alguien está guardando la edición de un laboratorio");
+
+        if(errores.hasErrors()){
+            return "form_nuevo_laboratorio";
+        }
+
+        laboratoriosDAO.save(laboratorio);
+        return "redirect:";
     }
 
 }

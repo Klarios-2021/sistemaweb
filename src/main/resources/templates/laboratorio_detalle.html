@@ -75,7 +75,7 @@
                             onclick="document.getElementById('form-nueva-div').style.display = 'block'">
                         Agregar establecimiento
                     </button>
-                    <a class="btn btn-primary" th:href="@{'/laboratorios/' + ${laboratorio.id} + '/edicion'}">
+                    <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/edicion(idLaboratorio=${laboratorio.id})}">
                         <i class="far fa-edit"></i> Editar
                     </a>
                     <a class="btn btn-primary" th:href="@{'/laboratorios/'}">
