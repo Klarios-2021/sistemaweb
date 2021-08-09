@@ -1,12 +1,9 @@
 package com.klarios.sistemaweb;
 
 import com.klarios.sistemaweb.models.*;
-import com.klarios.sistemaweb.models.enums.TipoDivision;
-import com.klarios.sistemaweb.repositories.ContactosDAO;
 import com.klarios.sistemaweb.security.EncripcionPassword;
 import com.klarios.sistemaweb.security.Rol;
 import com.klarios.sistemaweb.security.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -67,20 +64,14 @@ public class DataLoader {
         sala.setUma("UMA BUENO");
         sala.setEquipos(List.of(equipo));
 
-        Division division2 = new Division();
-        division2.setNombre("Division secundaria");
-        division2.setTipo(TipoDivision.AREA);
-        division2.setSalas(List.of(sala));
-
-        Division division1 = new Division();
-        division1.setNombre("Division principal");
-        division1.setTipo(TipoDivision.SECTOR);
-        division1.setSubdivisiones(List.of(division2));
+        Sector sector = new Sector();
+        sector.setNombre("Sector 1");
+        sector.setSalas(List.of(sala));
 
         Establecimiento establecimiento = new Establecimiento();
         establecimiento.setNombre("Establecimiento 1");
         establecimiento.setDireccion("Av. Mortadela 1925");
-        establecimiento.setDivisiones(List.of(division1));
+        establecimiento.setSectores(List.of(sector));
 
         Laboratorio laboratorio = new Laboratorio();
         laboratorio.setNombre("Sinopharm");
@@ -107,8 +98,7 @@ public class DataLoader {
         em.persist(equipo);
         em.persist(sala);
         em.persist(contacto);
-        em.persist(division2);
-        em.persist(division1);
+        em.persist(sector);
         em.persist(establecimiento);
         em.persist(laboratorio);
         em.persist(usuario);

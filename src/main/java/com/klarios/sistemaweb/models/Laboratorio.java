@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Laboratorio")
+@Table(name = "laboratorio")
 public class Laboratorio {
 
     @Id
@@ -40,5 +40,7 @@ public class Laboratorio {
     @JoinColumn(name = "establecimiento_laboratorio")
     List<Establecimiento> establecimientos = new ArrayList<>();
 
-
+    public void agregarEstablecimiento(Establecimiento establecimiento){
+        this.establecimientos.add(establecimiento);
+    }
 }

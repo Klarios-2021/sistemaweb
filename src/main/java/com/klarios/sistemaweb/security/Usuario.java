@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuario")
 public class Usuario {
 
     @Column(name = "usuario_id")
@@ -24,7 +24,7 @@ public class Usuario {
 
     @NotEmpty
     @ElementCollection
-    @CollectionTable(name = "Roles",
+    @CollectionTable(name = "rol",
             joinColumns=@JoinColumn(name = "rol_usuario"))
     @Column(name = "rol_descripcion")
     @Enumerated(EnumType.STRING)

@@ -1,7 +1,5 @@
 package com.klarios.sistemaweb.models;
 
-import com.klarios.sistemaweb.models.enums.TipoDivision;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Establecimiento")
+@Table(name = "establecimiento")
 public class Establecimiento {
 
     @Id
@@ -25,7 +23,10 @@ public class Establecimiento {
     String direccion;
 
     @OneToMany
-    @JoinColumn(name = "division_establecimiento")
-    List<Division> divisiones = new ArrayList<>();
+    @JoinColumn(name = "sector_establecimiento")
+    List<Sector> sectores = new ArrayList<>();
 
+    public void agregarSector(Sector sector){
+        this.sectores.add(sector);
+    }
 }

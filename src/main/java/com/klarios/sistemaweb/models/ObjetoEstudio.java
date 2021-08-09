@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Objeto")
+@Table(name = "objeto_estudio")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class ObjetoEstudio {
 

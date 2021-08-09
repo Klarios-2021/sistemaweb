@@ -19,20 +19,11 @@
             <div class="row">
                 <div class="col-12">
                     <h2>Laboratorios</h2>
-                    <!--form th:action="@{/laboratorios/}" method="get" th:object="${filtro}">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" th:field="*{nombre}"/>
-                        <label for="dni" class="form-label">DNI</label>
-                        <input type="text" name="dni" id="dni" th:field="*{dni}">
-                        <label for="estado" class="form-label">Estado de tratamiento</label>
-                        <select name="estadoTratamiento" id="estado" th:field="*{estadoTratamiento}">
-                            <option th:each="estado: ${estados}"
-                                    th:value="${estado}"
-                                    th:text="${estado}"></option>
-                        </select>
+                    <form th:action="@{/laboratorios/}" method="get" th:object="${filtro}">
+                        <label for="palabraClave" class="form-label">Palabra clave</label>
+                        <input type="text" name="palabraClave" id="palabraClave" th:field="*{palabraClave}">
                         <input type="submit" value="Filtrar">
-                        <input type="button" value="Limpiar filtro" onclick="limpiarFiltros()">
-                    </form-->
+                    </form>
                     <table class="table">
                         <tr>
                             <th>Laboratorio</th>

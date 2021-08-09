@@ -12,7 +12,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
-@Table(name = "Version")
+@Table(name = "version_datos")
 public class VersionDatos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class VersionDatos {
     String observaciones;
 
     @ElementCollection
-    @CollectionTable(name = "Datos", joinColumns = {@JoinColumn(name = "datos_version_datos",
+    @CollectionTable(name = "datos", joinColumns = {@JoinColumn(name = "datos_version_datos",
             referencedColumnName = "version_datos_id")})
     @MapKeyColumn(name="datos_nombre_campo")
     @Column(name="datos_valor_campo")

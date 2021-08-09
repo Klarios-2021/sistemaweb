@@ -1,8 +1,8 @@
 package com.klarios.sistemaweb.controllers;
 
-import com.klarios.sistemaweb.models.Division;
+import com.klarios.sistemaweb.filters.FiltroLaboratorios;
+import com.klarios.sistemaweb.models.Establecimiento;
 import com.klarios.sistemaweb.models.Laboratorio;
-import com.klarios.sistemaweb.models.enums.TipoDivision;
 import com.klarios.sistemaweb.repositories.LaboratoriosDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,18 +22,22 @@ public class LaboratoriosController {
     public LaboratoriosDAO laboratoriosDAO;
 
     @GetMapping("laboratorios")
-    public String getLaboratorios(Model model) {
+    public String getLaboratorios(FiltroLaboratorios filtro, Model model) {
 
         System.out.println("Se solicitaron los laboratorios");
 
         List<Laboratorio> laboratorios = laboratoriosDAO.findAll();
-        model.addAttribute("laboratorios", laboratorios);
+
+        List<Laboratorio> laboratoriosFiltrados = filtro.filtrarLaboratorios(laboratorios);
+
+        model.addAttribute("laboratorios", laboratoriosFiltrados);
+        model.addAttribute("filtro", filtro);
 
         return "laboratorios";
     }
 
     @GetMapping("laboratorios/{id}")
-    public String getLaboratorio(Laboratorio laboratorio, Division division, Model model) {
+    public String getLaboratorio(Laboratorio laboratorio, Establecimiento establecimiento, Model model) {
         System.out.println("Alguien pidió el detalle de un laboratorio");
 
         Optional<Laboratorio> laboratorioOptional = laboratoriosDAO.findById(laboratorio.getId());
@@ -41,8 +45,7 @@ public class LaboratoriosController {
         if(laboratorioOptional.isPresent()){
             laboratorio = laboratorioOptional.get();
             model.addAttribute("laboratorio",laboratorio);
-            model.addAttribute("division",division);
-            model.addAttribute("tipos", TipoDivision.values());
+            model.addAttribute("establecimiento",establecimiento);
             return "laboratorio_detalle";
         }
         else{

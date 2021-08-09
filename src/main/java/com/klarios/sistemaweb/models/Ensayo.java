@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Ensayo")
+@Table(name = "ensayo")
 public class Ensayo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Ensayo {
     String protocolo;
 
     @OneToMany
-    @JoinColumn(name = "version_ensayo")
+    @JoinColumn(name = "version_datos_ensayo")
     List<VersionDatos> versionesDatos = new ArrayList<>();
 
 

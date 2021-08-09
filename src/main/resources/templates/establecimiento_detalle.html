@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Establecimiento - Detalles</title>
+    </head>
+    <body>
+    <div th:insert="layout/template :: header"></div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <h1 name="id" th:text="${establecimiento.nombre}" ></h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <label>Dirección:</label>
+                        <span name="direccion"th:text="${establecimiento.direccion}"></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <label>Sectores:</label>
+                        <ul name="sectores" th:each="sector: ${establecimiento.sectores}">
+                            <li>
+                                <a th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}"
+                                th:text="${sector.nombre}">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-primary"
+                            onclick="document.getElementById('form-nuevo-sector').style.display = 'block'">
+                        Agregar sector
+                    </button>
+                    <a class="btn btn-primary" th:href="@{'/establecimientos/' + ${establecimiento.id} + '/edicion'}">
+                        <i class="far fa-edit"></i> Editar
+                    </a>
+                    <a class="btn btn-primary" href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="form-nuevo-sector" style="display: none">
+            <form class="g-3" th:action="${idEstablecimiento} + '/sectores'"
+                  method="post" th:object="${sector}">
+                <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
+                    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
+                </div>
+                <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+            </form>
+            <button class="btn btn-danger"
+                    onclick="document.getElementById('form-nuevo-sector').style.display = 'none'">
+                Cancelar
+            </button>
+        </div>
+
+    </div>
+
+
+    <footer th:replace="layout/template :: footer"></footer>
+
+    </body>
+</html>

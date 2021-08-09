@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "Sala")
+@Table(name = "sala")
 @PrimaryKeyJoinColumn(name = "sala_id", referencedColumnName = "objeto_estudio_id")
 public class Sala extends ObjetoEstudio {
 
@@ -24,4 +24,5 @@ public class Sala extends ObjetoEstudio {
     @JoinColumn(name = "equipo_sala")
     List<Equipo> equipos = new ArrayList<>();
 
+    public void agregarEquipo(Equipo equipo){this.equipos.add(equipo);}
 }
