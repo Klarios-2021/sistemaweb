@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Nuevo ensayo</title>
+    </head>
+    <body>
+        <div th:insert="layout/template :: header"></div>
+
+        <div class="container" style="padding-bottom: 9.5rem">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Nuevo ensayo</h1><br>
+                    <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos/nuevo
+            (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${idSala})}"
+                          method="get" th:object="${filtroEnsayos}">
+
+                        <select th:object="${filtroEnsayos}" name="tipoEnsayo">
+                            <option value="">Elegi una opción</option>
+                            <option th:field="*{tipoEnsayo}" value="var-amb">Variables ambientales</option>
+                            <option th:field="*{tipoEnsayo}" value="otro">Otro ensayo</option>
+                        </select>
+
+                        <input type="submit" value="Elegir">
+                    </form>
+
+                    <div th:if="${filtroEnsayos.tipoEnsayo != ''}">
+                        <form class="g-3"
+                              th:action="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos
+                                          (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${idSala})}"
+                              method="post" th:object="${ensayo}">
+
+                            <div  th:insert="ensayos/form_ensayo_campos_genericos :: form-datos"></div>
+                            <div  th:if="${filtroEnsayos.tipoEnsayo == 'var-amb'}" th:insert="ensayos/form_ensayo_variables_ambientales :: form-datos"></div>
+
+
+                            <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+
+                        </form>
+                    </div>
+                    <div>
+                        <a class="btn btn-primary" href="javascript:history.back()">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <footer th:replace="layout/template :: footer"></footer>
+
+    </body>
+</html>

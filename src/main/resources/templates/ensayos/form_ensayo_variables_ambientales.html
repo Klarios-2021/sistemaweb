@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="form-datos">
+
+        <div th:each="i: ${#numbers.sequence(0, cantMediciones - 1)}">
+            <div class="mb-3">
+                <label class="form-label" for="medicion" th:text="'Medición ' + ${i+1}">Medición</label>
+                <input id="medicion" class="form-control" type="text" name="medicion" th:field="${versionDatos.datos['__Medicion+' '+${i+1}__']}"/>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="form-datos">
+
+        <div class="mb-3">
+            <label class="form-label" for="realizo">Realizó</label>
+            <input id="realizo" class="form-control" type="text" name="realizo" th:field="*{realizo}"/>
+            <span th:if="${#fields.hasErrors('realizo')}" th:errors="*{realizo}" style="color: red"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="fechaRealizacion">Fecha realización</label>
+            <input id="fechaRealizacion" class="form-control" type="date" name="fechaRealizacion" th:field="*{fechaRealizacion}"/>
+            <!--span th:if="${#fields.hasErrors('fechaRealizacion')}" th:errors="*{fechaRealizacion}" style="color: red"></span-->
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="controlo">Controló</label>
+            <input id="controlo" class="form-control" type="text" name="controlo" th:field="*{controlo}"/>
+            <span th:if="${#fields.hasErrors('controlo')}" th:errors="*{controlo}" style="color: red"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="fechaControl">Fecha control</label>
+            <input id="fechaControl" class="form-control" type="date" name="fechaControl" th:field="*{fechaControl}"/>
+            <!--span th:if="${#fields.hasErrors('fechaControl')}" th:errors="*{fechaControl}" style="color: red"></span-->
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="protocolo">Protocolo</label>
+            <input id="protocolo" class="form-control" type="text" name="protocolo" th:field="*{protocolo}"/>
+        </div>
+
+    </div>
+
+</body>
+</html>

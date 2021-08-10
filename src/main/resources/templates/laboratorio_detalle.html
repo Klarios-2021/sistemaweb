@@ -55,7 +55,7 @@
                             <li>
                                 <div class="card" style="width: fit-content;">
                                     <div class="card-body">
-                                        <a th:href="@{${laboratorio.id} + '/establecimientos/' + ${establecimiento.id}}"
+                                        <a th:href="@{'/laboratorios/' + ${laboratorio.id} + '/establecimientos/' + ${establecimiento.id}}"
                                            th:text="${establecimiento.nombre} ">
                                         </a>
                                     </div>
@@ -78,7 +78,7 @@
                     <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/edicion(idLaboratorio=${laboratorio.id})}">
                         <i class="far fa-edit"></i> Editar
                     </a>
-                    <a class="btn btn-primary" th:href="@{'/laboratorios/'}">
+                    <a class="btn btn-primary" href="javascript:history.back()">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
@@ -86,7 +86,8 @@
         </div>
 
         <div id="form-nueva-div" style="display: none">
-            <form class="g-3" th:action="@{${laboratorio.id} + '/establecimientos/'}" method="post" th:object="${establecimiento}">
+            <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos(idLaboratorio=${laboratorio.id})}"
+                  method="post" th:object="${establecimiento}">
                 <div class="mb-3">
                     <label class="form-label" for="nombre">Nombre</label>
                     <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>

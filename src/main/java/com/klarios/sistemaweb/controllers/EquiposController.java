@@ -25,14 +25,23 @@ public class EquiposController {
     @Autowired
     public SalasDAO salasDAO;
 
-    @GetMapping("laboratorios/{idlaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}")
-    public String getEquipo(@PathVariable("idEquipo") String idEquipo, Equipo equipo, Model model) {
+    @GetMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}")
+    public String getEquipo(@PathVariable("idLaboratorio") String idLaboratorio,
+                            @PathVariable("idEstablecimiento") String idEstablecimiento,
+                            @PathVariable("idSector") String idSector,
+                            @PathVariable("idSala") String idSala,
+                            @PathVariable("idEquipo") String idEquipo,
+                            Equipo equipo, Model model) {
         System.out.println("Alguien pidió el detalle de un equipo");
 
         Optional<Equipo> equipoOptional = equiposDAO.findById(Long.parseLong(idEquipo));
 
         if(equipoOptional.isPresent()){
             equipo = equipoOptional.get();
+            model.addAttribute("idLaboratorio", idLaboratorio);
+            model.addAttribute("idEstablecimiento",idEstablecimiento);
+            model.addAttribute("idSector",idSector);
+            model.addAttribute("idSala",idSala);
             model.addAttribute("equipo", equipo);
             return "equipo_detalle";
         }
@@ -42,7 +51,7 @@ public class EquiposController {
     }
 
     @PostMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos")
-    public String crearSector(@PathVariable("idSala") String idSala,
+    public String crearEquipo(@PathVariable("idSala") String idSala,
                               @Valid Equipo equipo, Errors errores, Model model) {
 
         System.out.println("Alguien está guardando un nuevo equipo");
@@ -66,4 +75,5 @@ public class EquiposController {
 
         return "redirect:";
     }
+
 }

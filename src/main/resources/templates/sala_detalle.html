@@ -42,7 +42,12 @@
                             onclick="document.getElementById('form-nuevo-equipo').style.display = 'block'">
                         Agregar equipo
                     </button>
-                    <a class="btn btn-primary" th:href="@{'/salas/' + ${sala.id} + '/edicion'}">
+                    <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos/nuevo
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${sala.id})}"/>
+                        <i class="fa fa-plus"></i> Cargar ensayo
+                    </a>
+                    <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/edicion
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${idSala})}">
                         <i class="far fa-edit"></i> Editar
                     </a>
                     <a class="btn btn-primary" href="javascript:history.back()">

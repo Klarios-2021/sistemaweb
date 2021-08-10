@@ -1,10 +1,7 @@
 package com.klarios.sistemaweb.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,8 +11,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "sala")
-@PrimaryKeyJoinColumn(name = "sala_id", referencedColumnName = "objeto_estudio_id")
-public class Sala extends ObjetoEstudio {
+@PrimaryKeyJoinColumn(name = "sala_id", referencedColumnName = "material_id")
+public class Sala extends Material {
 
     @Column(name = "sala_uma")
     String uma;

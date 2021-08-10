@@ -12,33 +12,33 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "objeto_estudio")
+@Table(name = "material")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class ObjetoEstudio {
+public abstract class Material {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "objeto_estudio_id")
+    @Column(name = "material_id")
     Long id;
 
-    @Column(name = "objeto_estudio_nombre")
+    @Column(name = "material_nombre")
     String nombre;
-    @Column(name = "objeto_estudio_tag")
+    @Column(name = "material_tag")
     String tag;
 
     @AttributeOverrides({
             @AttributeOverride(name="altura",
-                    column=@Column(name="objeto_estudio_altura")),
+                    column=@Column(name="material_altura")),
             @AttributeOverride(name="ancho",
-                    column=@Column(name="objeto_estudio_ancho")),
+                    column=@Column(name="material_ancho")),
             @AttributeOverride(name="largo",
-                    column=@Column(name="objeto_estudio_largo"))
+                    column=@Column(name="material_largo"))
     })
     @Embedded
     Dimension dimension;
 
-    @OneToMany
-    @JoinColumn(name = "ensayo_objeto_estudio")
+    @OneToMany(mappedBy = "material")
     List<Ensayo> ensayos = new ArrayList<>();
 
+    public void agregarEnsayo(Ensayo ensayo){this.ensayos.add(ensayo);}
 }

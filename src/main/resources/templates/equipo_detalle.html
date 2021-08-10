@@ -32,7 +32,22 @@
                 </div>
             </div>
 
+            <div>
+                <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}/ensayos/nuevo
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${idSala}, idEquipo=${equipo.id})}"/>
+                <i class="fa fa-plus"></i> Cargar ensayo
+                </a>
+                <a class="btn btn-primary" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}/edicion
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector}, idSala=${idSala}, idEquipo=${equipo.id})}">
+                    <i class="far fa-edit"></i> Editar
+                </a>
+                <a class="btn btn-primary" href="javascript:history.back()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
         </div>
+
+
 
     </div>
 

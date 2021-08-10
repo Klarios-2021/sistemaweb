@@ -42,3 +42,7 @@
     font-size: x-large;
     line-height: 90px;
 }
+body{
+    position: relative;
+    min-height: 100vh;
+}

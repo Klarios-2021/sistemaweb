@@ -67,7 +67,7 @@ public class EstablecimientosController {
             return "not_found_error";
         }
 
-        return "redirect:/laboratorios";
+        return "redirect:";
     }
 
 }

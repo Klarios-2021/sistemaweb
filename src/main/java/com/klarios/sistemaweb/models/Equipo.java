@@ -1,19 +1,16 @@
 package com.klarios.sistemaweb.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "equipo")
-@PrimaryKeyJoinColumn(name = "equipo_id", referencedColumnName = "objeto_estudio_id")
-public class Equipo extends ObjetoEstudio{
+@PrimaryKeyJoinColumn(name = "equipo_id", referencedColumnName = "material_id")
+public class Equipo extends Material {
 
     @Column(name = "equipo_marca")
     String marca;

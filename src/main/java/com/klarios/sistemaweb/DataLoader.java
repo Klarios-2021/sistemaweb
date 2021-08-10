@@ -8,6 +8,7 @@ import com.klarios.sistemaweb.security.Usuario;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -41,21 +42,23 @@ public class DataLoader {
         datosNuevos.put("Medicion 3", "25.35");
         versionDatosActual.setDatos(datosNuevos);
 
-        Ensayo ensayo = new Ensayo();
-        ensayo.setFechaRealizacion(LocalDateTime.now());
-        ensayo.setRealizo("Juan Perez");
-        ensayo.setFechaControl(LocalDateTime.now());
-        ensayo.setControlo("Martin Lopez");
-        ensayo.setProtocolo("V500124");
-        ensayo.setVersionesDatos(List.of(versionDatosVieja,versionDatosActual));
-
         Equipo equipo = new Equipo();
         equipo.setNombre("Rotopercutor");
         equipo.setTag("RPT351");
         equipo.setDimension(new Dimension(1.0,1.0,1.0));
         equipo.setMarca("Patito");
         equipo.setModelo("BMW500");
-        equipo.setEnsayos(List.of(ensayo));
+        //equipo.setEnsayos(List.of(ensayo));
+
+        Ensayo ensayo = new Ensayo();
+        ensayo.setFechaRealizacion(LocalDate.now());
+        ensayo.setRealizo("Juan Perez");
+        ensayo.setFechaControl(LocalDate.now());
+        ensayo.setControlo("Martin Lopez");
+        ensayo.setProtocolo("V500124");
+        ensayo.setVersionesDatos(List.of(versionDatosVieja,versionDatosActual));
+        ensayo.setMaterial(equipo);
+
 
         Sala sala = new Sala();
         sala.setNombre("Sala 1");

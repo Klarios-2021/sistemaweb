@@ -1,10 +1,11 @@
 package com.klarios.sistemaweb.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,13 @@ public class Ensayo {
     @Column(name = "ensayo_realizo")
     String realizo;
     @Column(name = "ensayo_fecha_realizacion")
-    LocalDateTime fechaRealizacion;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    LocalDate fechaRealizacion;
     @Column(name = "ensayo_controlo")
     String controlo;
     @Column(name = "ensayo_fecha_control")
-    LocalDateTime fechaControl;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    LocalDate fechaControl;
     @Column(name = "ensayo_protocolo")
     String protocolo;
 
@@ -34,6 +37,11 @@ public class Ensayo {
     @JoinColumn(name = "version_datos_ensayo")
     List<VersionDatos> versionesDatos = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "ensayo_material")
+    Material material;
+
+    public void agregarVersionDatos(VersionDatos versionDatos){this.versionesDatos.add(versionDatos);}
 
 
 

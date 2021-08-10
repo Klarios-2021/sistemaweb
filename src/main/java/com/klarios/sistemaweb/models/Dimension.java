@@ -23,4 +23,11 @@ public class Dimension {
         this.ancho = ancho;
         this.largo = largo;
     }
+
+    public Double obtenerArea(){
+        return ancho * largo;
+    }
+    public Double obtenerVolumen(){
+        return ancho * largo * altura;
+    }
 }
