@@ -1,6 +1,7 @@
 package com.klarios.sistemaweb;
 
 import com.klarios.sistemaweb.models.*;
+import com.klarios.sistemaweb.models.ensayos.EnsayoVariablesAmbientales;
 import com.klarios.sistemaweb.security.EncripcionPassword;
 import com.klarios.sistemaweb.security.Rol;
 import com.klarios.sistemaweb.security.Usuario;
@@ -50,7 +51,7 @@ public class DataLoader {
         equipo.setModelo("BMW500");
         //equipo.setEnsayos(List.of(ensayo));
 
-        Ensayo ensayo = new Ensayo();
+        Ensayo ensayo = new EnsayoVariablesAmbientales();
         ensayo.setFechaRealizacion(LocalDate.now());
         ensayo.setRealizo("Juan Perez");
         ensayo.setFechaControl(LocalDate.now());

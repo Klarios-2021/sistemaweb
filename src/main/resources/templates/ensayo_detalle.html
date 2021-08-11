@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Ensayo - Detalles</title>
+    </head>
+    <body>
+    <div th:insert="layout/template :: header"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 class="p-5" name="id" th:text="'Ensayo ID: ' + ${ensayo.id}"></h2>
+                <card class="card">
+                    <card class="card-body">
+                        <div th:each="dato: ${datos}">
+                            <div class="mb-3">
+                                <label class="form-label" for="dato" th:text="${dato.key}"></label>
+                                <input id="dato" class="form-control" type="text" name="dato" disabled th:value="${dato.value}"/>
+                            </div>
+                        </div>
+                    </card>
+                </card>
+
+            </div>
+            <a class="btn btn-primary" href="javascript:history.back()">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+
+    <footer th:replace="layout/template :: footer"></footer>
+
+    </body>
+</html>

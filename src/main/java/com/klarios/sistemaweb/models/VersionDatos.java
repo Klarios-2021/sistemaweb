@@ -26,10 +26,10 @@ public class VersionDatos {
     String observaciones;
 
     @ElementCollection
-    @CollectionTable(name = "datos", joinColumns = {@JoinColumn(name = "datos_version_datos",
+    @CollectionTable(name = "dato", joinColumns = {@JoinColumn(name = "dato_version_datos",
             referencedColumnName = "version_datos_id")})
-    @MapKeyColumn(name="datos_nombre_campo")
-    @Column(name="datos_valor_campo")
+    @MapKeyColumn(name="dato_nombre_campo")
+    @Column(name="dato_valor_campo")
     Map<String,String> datos;
 
 }

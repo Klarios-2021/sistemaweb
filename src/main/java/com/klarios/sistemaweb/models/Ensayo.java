@@ -14,6 +14,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "ensayo")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "ensayo_tipo")
+@DiscriminatorValue("GENERICO")
 public class Ensayo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

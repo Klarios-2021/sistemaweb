@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 @Controller
 public class EnsayosController {
@@ -28,6 +30,9 @@ public class EnsayosController {
 
     @Autowired
     SalasDAO salasDAO;
+
+    @Autowired
+    MaterialesDAO materialesDAO;
 
     @Autowired
     VersionDatosDAO versionDatosDAO;
@@ -46,14 +51,35 @@ public class EnsayosController {
         return "ensayos";
     }
 
+    @GetMapping("ensayos/{idEnsayo}")
+    public String getEnsayo(@PathVariable("idEnsayo") String idEnsayo,
+                             Model model) {
+
+        System.out.println("Se solicito un ensayo");
+
+        Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
+
+        if(ensayoOptional.isPresent()){
+
+            Map<String,String> datos = new TreeMap<String,String>(ensayoOptional.get().getVersionesDatos().get(0).getDatos());
+            model.addAttribute("ensayo",ensayoOptional.get());
+
+            model.addAttribute("datos",datos);
+            return "ensayo_detalle";
+        }
+        else{
+            return "not_found_error";
+        }
+
+    }
     @GetMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos/nuevo")
     public String getFormNuevoEnsayoSala(@PathVariable("idLaboratorio") String idLaboratorio,
                                          @PathVariable("idEstablecimiento") String idEstablecimiento,
                                          @PathVariable("idSector") String idSector,
                                          @PathVariable("idSala") String idSala,
+                                         Ensayo ensayo,
                                          FiltroEnsayos filtroEnsayos,
                                          VersionDatos versionDatos,
-                                         Ensayo ensayo,
                                          Model model) {
 
         System.out.println("Se solicitó el formulario para crear un nuevo ensayo de sala");
@@ -72,7 +98,8 @@ public class EnsayosController {
         model.addAttribute("idSector", idSector);
         model.addAttribute("idSala", idSala);
         model.addAttribute("filtroEnsayos", filtroEnsayos);
-        model.addAttribute("ensayo",ensayo);
+        model.addAttribute("ensayo", ensayo);
+
         model.addAttribute("versionDatos",versionDatos);
 
         return "form_nuevo_ensayo_sala";
@@ -112,9 +139,34 @@ public class EnsayosController {
         return "form_nuevo_ensayo_equipo";
     }
 
+    public void guardarEnsayo(Material material, Ensayo ensayo, String tipoEnsayo){
+        switch (tipoEnsayo){
+            case "var-amb":
+                EnsayoVariablesAmbientales ensayoVariablesAmbientales = new EnsayoVariablesAmbientales();
+                ensayoVariablesAmbientales.setMaterial(ensayo.getMaterial());
+                ensayoVariablesAmbientales.setProtocolo(ensayo.getProtocolo());
+                ensayoVariablesAmbientales.setControlo(ensayo.getControlo());
+                ensayoVariablesAmbientales.setFechaControl(ensayo.getFechaControl());
+                ensayoVariablesAmbientales.setFechaRealizacion(ensayo.getFechaRealizacion());
+                ensayoVariablesAmbientales.setRealizo(ensayo.getRealizo());
+                ensayoVariablesAmbientales.setVersionesDatos(ensayo.getVersionesDatos());
+                ensayoVariablesAmbientales.setMaterial(material);
+                ensayosDAO.save(ensayoVariablesAmbientales);
+                break;
+            default:
+                material.agregarEnsayo(ensayo);
+                ensayo.setMaterial(material);
+                ensayosDAO.save(ensayo);
+                break;
+        }
+    }
     @PostMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos")
-    public String crearEnsayoSala(@PathVariable("idSala") String idSala,
-                              @Valid Ensayo ensayo, VersionDatos versionDatos, Errors errores, Model model) {
+    public String crearEnsayoSala (@PathVariable("idSala") String idSala,
+                                  @Valid Ensayo ensayo,
+                                  VersionDatos versionDatos,
+                                  FiltroEnsayos filtroEnsayos,
+                                  Errors errores,
+                                  Model model) {
 
         System.out.println("Alguien está guardando un nuevo ensayo en una sala");
 
@@ -127,17 +179,12 @@ public class EnsayosController {
         if(salaOptional.isPresent()){
             versionDatos.setFecha(LocalDateTime.now());
             versionDatos.setObservaciones("Versión inicial");
+            versionDatosDAO.save(versionDatos);
 
             ensayo.setId(null);
             ensayo.agregarVersionDatos(versionDatos);
 
-            Sala sala = salaOptional.get();
-            ensayo.setMaterial(sala);
-            sala.agregarEnsayo(ensayo);
-
-            versionDatosDAO.save(versionDatos);
-            ensayosDAO.save(ensayo);
-            salasDAO.save(sala);
+            guardarEnsayo(salaOptional.get(), ensayo, filtroEnsayos.getTipoEnsayo());
         }
         else{
             return "not_found_error";
@@ -148,7 +195,11 @@ public class EnsayosController {
 
     @PostMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}/ensayos")
     public String crearEnsayoEquipo(@PathVariable("idEquipo") String idEquipo,
-                              @Valid Ensayo ensayo, VersionDatos versionDatos, Errors errores, Model model) {
+                                    @Valid Ensayo ensayo,
+                                    VersionDatos versionDatos,
+                                    FiltroEnsayos filtroEnsayos,
+                                    Errors errores,
+                                    Model model) {
 
         System.out.println("Alguien está guardando un nuevo ensayo en un equipo");
 
@@ -161,17 +212,12 @@ public class EnsayosController {
         if(equipoOptional.isPresent()){
             versionDatos.setFecha(LocalDateTime.now());
             versionDatos.setObservaciones("Versión inicial");
+            versionDatosDAO.save(versionDatos);
 
             ensayo.setId(null);
             ensayo.agregarVersionDatos(versionDatos);
 
-            Equipo equipo = equipoOptional.get();
-            ensayo.setMaterial(equipo);
-            equipo.agregarEnsayo(ensayo);
-
-            versionDatosDAO.save(versionDatos);
-            ensayosDAO.save(ensayo);
-            equiposDAO.save(equipo);
+            guardarEnsayo(equipoOptional.get(), ensayo, filtroEnsayos.getTipoEnsayo());
         }
         else{
             return "not_found_error";

@@ -1,7 +1,16 @@
 package com.klarios.sistemaweb.models.ensayos;
 
 import com.klarios.sistemaweb.models.Ensayo;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Getter
+@Setter
+@Entity
+@DiscriminatorValue("VAR_AMB")
 public class EnsayoVariablesAmbientales extends Ensayo {
 
     public int obtenerMedicionesNecesarias(){
