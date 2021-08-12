@@ -8,41 +8,26 @@
     <div th:insert="layout/template :: header"></div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 name="id" th:text="${sector.nombre}" ></h1>
-                <div class="card">
+        <div class="row pb-5">
+            <h2 class="p-5" name="id" th:text="${sector.nombre}"></h2>
+            <div class="col-6">
+                <div class="card h-100">
                     <div class="card-body">
-                        <label>Salas:</label>
-                        <ul name="salas" th:each="sala: ${sector.salas}">
+                        <h5 class="card-title pb-4">Salas</h5>
+                        <ul name="salas" th:each="sala: ${sector.salas}"
+                            style="list-style-type: none; padding: 0">
                             <li>
-                                <a th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}
-                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id}, idSala=${sala.id})}"
-                                th:text="${sala.nombre}">
+                                <a class="animatedLink" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}
+                                        (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id}, idSala=${sala.id})}">
+                                    <i class="fas fa-kaaba"></i>  <span th:text="${sala.nombre}"></span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-                <div>
-                    <button class="btn btn-primary"
-                            onclick="document.getElementById('form-nueva-sala').style.display = 'block'">
-                        Agregar sala
-                    </button>
-                    <a class="btn btn-primary"
-                       th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/edicion
-                       (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}">
-                        <i class="far fa-edit"></i> Editar
-                    </a>
-                    <a class="btn btn-primary" href="javascript:history.back()">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
-                </div>
             </div>
         </div>
-
-        <div id="form-nueva-sala" style="display: none">
+        <div id="form-nueva-sala" class="col pb-4" style="display: none">
             <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas
                                 (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}"
                   method="post" th:object="${sala}">
@@ -77,12 +62,28 @@
                     <span th:if="${#fields.hasErrors('uma')}" th:errors="*{uma}" style="color: red"></span>
                 </div>
                 <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                <button class="btn btn-danger" type="button"
+                        onclick="document.getElementById('form-nueva-sala').style.display = 'none'">
+                    Cancelar
+                </button>
             </form>
-            <button class="btn btn-danger"
-                    onclick="document.getElementById('form-nueva-sala').style.display = 'none'">
-                Cancelar
-            </button>
+
         </div>
+        <div>
+            <button class="btn btn-primary"
+                    onclick="document.getElementById('form-nueva-sala').style.display = 'block'">
+                Agregar sala
+            </button>
+            <a class="btn btn-primary"
+               th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/edicion
+                       (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}">
+                <i class="far fa-edit"></i> Editar
+            </a>
+            <a class="btn btn-primary" href="javascript:history.back()">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+
 
     </div>
 

@@ -8,65 +8,61 @@
     <div th:insert="layout/template :: header"></div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-6">
-                <h2 class="p-5" name="id" th:text="${laboratorio.nombre}"></h2>
-                <div class="card">
-                    <div class="card-body">
-                        <label>Razón social:</label>
-                        <span name="razonSocial"th:text="${laboratorio.razonSocial}"></span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <label>E-mail:</label>
-                        <span name="email" th:text="${laboratorio.email}"></span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <label>Teléfono:</label>
-                        <span name="telefono" th:text="${laboratorio.telefono}"></span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <label>CUIT:</label>
-                        <span name="cuit" th:text="${laboratorio.cuit}"></span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <label>Página web:</label>
-                        <span name="website" th:text="${laboratorio.website}"></span>
-                    </div>
-                </div><br>
+        <div class="row pb-5">
+            <h2 class="p-5" name="id" th:text="${laboratorio.nombre}"></h2>
+            <div class="col-6 h-100">
+               <card class="card">
+                   <div class="card-body">
+                       <h5 class="card-title pb-4">Información</h5>
+                       <h6 class="card-subtitle mb-2 text-muted">Razon social</h6>
+                       <span name="razonSocial"th:text="${laboratorio.razonSocial}"></span>
+                       <h6 class="card-subtitle mb-2 text-muted pt-3">E-mail</h6>
+                       <span name="email" th:text="${laboratorio.email}"></span>
+                       <h6 class="card-subtitle mb-2 text-muted pt-3">Teléfono</h6>
+                       <span name="telefono" th:text="${laboratorio.telefono}"></span>
+                       <h6 class="card-subtitle mb-2 text-muted pt-3">CUIT</h6>
+                       <span name="cuit" th:text="${laboratorio.cuit}"></span>
+                       <h6 class="card-subtitle mb-2 text-muted pt-3">Página web</h6>
+                       <span name="website" th:text="${laboratorio.website}"></span>
+                   </div>
+               </card>
             </div>
             <div class="col-6">
-                <div style="margin-top: 142px" class="card">
+                <div class="card h-100">
                     <div class="card-body">
-                        <label class="pb-3">Establecimientos:</label>
+                        <h5 class="card-title pb-4">Establecimientos</h5>
                         <ul name="establecimientos" th:each="establecimiento: ${laboratorio.establecimientos}"
                             style="list-style-type: none; padding: 0">
                             <li>
-                                <div class="card" style="width: fit-content;">
-                                    <div class="card-body">
-                                        <a th:href="@{'/laboratorios/' + ${laboratorio.id} + '/establecimientos/' + ${establecimiento.id}}"
-                                           th:text="${establecimiento.nombre} ">
-                                        </a>
-                                    </div>
-
-                                </div>
-
+                                <a class="animatedLink" th:href="@{'/laboratorios/' + ${laboratorio.id} + '/establecimientos/' + ${establecimiento.id}}">
+                                    <i class="fas fa-building"></i>  <span th:text="${establecimiento.nombre}"></span>
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="form-nueva-div" style="display: none">
+            <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos(idLaboratorio=${laboratorio.id})}"
+                  method="post" th:object="${establecimiento}">
+                <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
+                    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="direccion">Dirección</label>
+                    <input id="direccion" class="form-control" type="text" name="direccion" th:field="*{direccion}"/>
+                    <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" style="color: red"></span>
+                </div>
+                <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                <button class="btn btn-danger"
+                        onclick="document.getElementById('form-nueva-div').style.display = 'none'">
+                    Cancelar
+                </button>
+            </form>
+
         </div>
         <div class="row">
             <div class="col">
@@ -85,26 +81,7 @@
             </div>
         </div>
 
-        <div id="form-nueva-div" style="display: none">
-            <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos(idLaboratorio=${laboratorio.id})}"
-                  method="post" th:object="${establecimiento}">
-                <div class="mb-3">
-                    <label class="form-label" for="nombre">Nombre</label>
-                    <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
-                    <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="direccion">Dirección</label>
-                    <input id="direccion" class="form-control" type="text" name="direccion" th:field="*{direccion}"/>
-                    <span th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" style="color: red"></span>
-                </div>
-                <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
-            </form>
-            <button class="btn btn-danger"
-                    onclick="document.getElementById('form-nueva-div').style.display = 'none'">
-                Cancelar
-            </button>
-        </div>
+
 
     </div>
 

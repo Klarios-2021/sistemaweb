@@ -1,5 +1,6 @@
 package com.klarios.sistemaweb.models;
 
+import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,6 +36,11 @@ public class Ensayo {
     LocalDate fechaControl;
     @Column(name = "ensayo_protocolo")
     String protocolo;
+    @Column(name = "ensayo_observaciones")
+    String observaciones = "Observaciones genericas";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ensayo_estado")
+    EstadoEnsayo estado;
 
     @OneToMany
     @JoinColumn(name = "version_datos_ensayo")

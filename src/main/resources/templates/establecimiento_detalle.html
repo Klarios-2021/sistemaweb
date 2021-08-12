@@ -8,63 +8,68 @@
     <div th:insert="layout/template :: header"></div>
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row pb-5">
+            <h2 class="p-5" name="id" th:text="${establecimiento.nombre}"></h2>
             <div class="col-6">
-                <h1 name="id" th:text="${establecimiento.nombre}" ></h1>
-
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
-                        <label>Dirección:</label>
+                        <h5 class="card-title pb-4">Información</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Dirección</h6>
                         <span name="direccion"th:text="${establecimiento.direccion}"></span>
                     </div>
                 </div>
-                <div class="card">
+            </div>
+            <div class="col-6">
+                <div class="card h-100" style="min-height: 11rem">
                     <div class="card-body">
-                        <label>Sectores:</label>
-                        <ul name="sectores" th:each="sector: ${establecimiento.sectores}">
+                        <h5 class="card-title pb-4">Sectores</h5>
+                        <ul name="sectores"  th:each="sector: ${establecimiento.sectores}"
+                            style="list-style-type: none; padding: 0">
                             <li>
-                                <a th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}
-                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}"
-                                th:text="${sector.nombre}">
+                                <a class="animatedLink" th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}">
+                                    <i class="fas fa-vector-square"></i>  <span th:text="${sector.nombre}"></span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-                <div>
-                    <button class="btn btn-primary"
-                            onclick="document.getElementById('form-nuevo-sector').style.display = 'block'">
-                        Agregar sector
-                    </button>
-                    <a class="btn btn-primary"
-                       th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/edicion
-                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento})}">
-                        <i class="far fa-edit"></i> Editar
-                    </a>
-                    <a class="btn btn-primary" href="javascript:history.back()">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </a>
-                </div>
             </div>
         </div>
-
-        <div id="form-nuevo-sector" style="display: none">
+        <div id="form-nuevo-sector" class="col pb-4" style="display: none">
             <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores
                                 (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento})}"
                   method="post" th:object="${sector}">
                 <div class="mb-3">
-                    <label class="form-label" for="nombre">Nombre</label>
+                    <label class="form-label" for="nombre">Nombre del sector</label>
                     <input id="nombre" class="form-control" type="text" name="nombre" th:field="*{nombre}"/>
                     <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" style="color: red"></span>
                 </div>
                 <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                <button class="btn btn-danger" type="button"
+                        onclick="document.getElementById('form-nuevo-sector').style.display = 'none'">
+                    Cancelar
+                </button>
             </form>
-            <button class="btn btn-danger"
-                    onclick="document.getElementById('form-nuevo-sector').style.display = 'none'">
-                Cancelar
-            </button>
+
         </div>
+        <div>
+            <button class="btn btn-primary"
+                    onclick="document.getElementById('form-nuevo-sector').style.display = 'block'">
+                Agregar sector
+            </button>
+            <a class="btn btn-primary"
+               th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/edicion
+                                (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento})}">
+                <i class="far fa-edit"></i> Editar
+            </a>
+            <a class="btn btn-primary" href="javascript:history.back()">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+        </div>
+
+
 
     </div>
 

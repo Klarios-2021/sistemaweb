@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue("VAR_AMB")
 public class EnsayoVariablesAmbientales extends Ensayo {
 
+    String observaciones = "Ensayo de variables ambientales realizado en base a normas X";
+
     public int obtenerMedicionesNecesarias(){
         Double area = getMaterial().getDimension().obtenerArea();
         return area < 4.0 ? 2 :

@@ -3,6 +3,7 @@ package com.klarios.sistemaweb.controllers;
 import com.klarios.sistemaweb.filters.FiltroEnsayos;
 import com.klarios.sistemaweb.models.*;
 import com.klarios.sistemaweb.models.ensayos.EnsayoVariablesAmbientales;
+import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
 import com.klarios.sistemaweb.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -151,9 +152,11 @@ public class EnsayosController {
                 ensayoVariablesAmbientales.setRealizo(ensayo.getRealizo());
                 ensayoVariablesAmbientales.setVersionesDatos(ensayo.getVersionesDatos());
                 ensayoVariablesAmbientales.setMaterial(material);
+                ensayoVariablesAmbientales.setEstado(EstadoEnsayo.APROBADO);
                 ensayosDAO.save(ensayoVariablesAmbientales);
                 break;
             default:
+                ensayo.setEstado(EstadoEnsayo.APROBADO);
                 material.agregarEnsayo(ensayo);
                 ensayo.setMaterial(material);
                 ensayosDAO.save(ensayo);

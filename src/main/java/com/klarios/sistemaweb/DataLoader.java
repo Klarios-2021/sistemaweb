@@ -2,6 +2,7 @@ package com.klarios.sistemaweb;
 
 import com.klarios.sistemaweb.models.*;
 import com.klarios.sistemaweb.models.ensayos.EnsayoVariablesAmbientales;
+import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
 import com.klarios.sistemaweb.security.EncripcionPassword;
 import com.klarios.sistemaweb.security.Rol;
 import com.klarios.sistemaweb.security.Usuario;
@@ -59,6 +60,7 @@ public class DataLoader {
         ensayo.setProtocolo("V500124");
         ensayo.setVersionesDatos(List.of(versionDatosVieja,versionDatosActual));
         ensayo.setMaterial(equipo);
+        ensayo.setEstado(EstadoEnsayo.DESAPROBADO);
 
 
         Sala sala = new Sala();
