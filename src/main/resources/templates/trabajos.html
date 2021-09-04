@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Trabajos</title>
+        <!--script th:inline="javascript">
+            function limpiarFiltros(){
+                var estados = [[${estados}]];
+                document.getElementById("nombre").value = null;
+                document.getElementById("dni").value = null;
+                document.getElementById("estado").value = estados[3]; //Para setear el estado "CUALQUIERA"
+            }
+        </script-->
+    </head>
+    <body>
+        <div th:insert="layout/template :: header"></div>
+        <div class="container pt-2" align="center">
+
+            <div class="row">
+                <div class="col-12">
+                    <h2>Trabajos</h2>
+                    <form th:action="@{/trabajos/}" method="get" th:object="${filtro}">
+                        <label for="palabraClave" class="form-label">Palabra clave</label>
+                        <input type="text" name="palabraClave" id="palabraClave" th:field="*{palabraClave}">
+                        <input type="submit" value="Filtrar">
+                    </form>
+                    <table class="table">
+                        <tr>
+                            <th>ID trabajo</th>
+                            <th>Fecha</th>
+                            <th>Laboratorio</th>
+                            <th>Sector</th>
+                            <th>Observaciones</th>
+                            <th>Estado</th>
+                        </tr>
+                        <tr th:each="trabajo: ${trabajos}">
+                            <td th:text="${trabajo.id}"></td>
+                            <td th:text="${trabajo.fecha}"></td>
+                            <td th:text="${'Configurar'}"></td>
+                            <td th:text="${'Configurar'}"></td>
+                            <td th:text="${trabajo.observaciones}"></td>
+                            <td th:text="${trabajo.estadoTrabajo()}"></td>
+                            <td><a th:href="@{'/trabajos/' + ${trabajo.id}}">
+                                <i class="fas fa-arrow-alt-circle-right"></i>
+                            </a></td>
+                        </tr>
+                    </table>
+                    <!--a class="btn btn-primary" href="/trabajos/nuevo">
+                        <i class="fas fa-plus"></i> Cargar nuevo trabajo
+                    </a-->
+                    <a class="btn btn-primary" th:href="@{'/'}">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
+</html>

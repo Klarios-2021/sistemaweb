@@ -10,7 +10,7 @@
         <div class="mb-3">
             <label class="form-label" for="realizo">Realizó</label>
             <input id="realizo" class="form-control" type="text" name="realizo" th:field="*{realizo}"/>
-            <span th:if="${#fields.hasErrors('realizo')}" th:errors="*{realizo}" style="color: red"></span>
+            <!--span th:if="${#fields.hasErrors('realizo')}" th:errors="*{.]ealizo}" style="color: red"></span-->
         </div>
 
         <div class="mb-3">
@@ -22,7 +22,7 @@
         <div class="mb-3">
             <label class="form-label" for="controlo">Controló</label>
             <input id="controlo" class="form-control" type="text" name="controlo" th:field="*{controlo}"/>
-            <span th:if="${#fields.hasErrors('controlo')}" th:errors="*{controlo}" style="color: red"></span>
+            <!--span th:if="${#fields.hasErrors('controlo')}" th:errors="*{controlo}" style="color: red"></span-->
         </div>
 
         <div class="mb-3">
@@ -35,6 +35,16 @@
             <label class="form-label" for="protocolo">Protocolo</label>
             <input id="protocolo" class="form-control" type="text" name="protocolo" th:field="*{protocolo}"/>
         </div>
+
+        <!--div class="mb-3">
+            <label class="form-label" for="descripcion">Descripción</label>
+            <input id="descripcion" class="form-control" type="text" name="descripcion" th:field="*{descripcion}"/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="estado">Estado</label>
+            <input id="estado" class="form-control" type="text" name="estado" th:field="*{estado}"/>
+        </div-->
 
     </div>
 

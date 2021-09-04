@@ -36,14 +36,13 @@ public class SectoresController {
 
         Optional<Sector> sectorOptional = sectoresDAO.findById(Long.parseLong(idSector));
 
-        if(sectorOptional.isPresent()){
+        if (sectorOptional.isPresent()) {
             model.addAttribute("sector", sectorOptional.get());
             model.addAttribute("sala", sala);
             model.addAttribute("idLaboratorio", idLaboratorio);
-            model.addAttribute("idEstablecimiento",idEstablecimiento);
+            model.addAttribute("idEstablecimiento", idEstablecimiento);
             return "sector_detalle";
-        }
-        else{
+        } else {
             return "not_found_error";
         }
     }
@@ -54,20 +53,20 @@ public class SectoresController {
 
         System.out.println("Alguien está guardando un nuevo sector");
 
-        if(errores.hasErrors()){
+        if (errores.hasErrors()) {
             return "establecimiento_detalle";
         }
 
         Optional<Establecimiento> establecimientoOptional = establecimientosDAO.findById(Long.parseLong(idEstablecimiento));
 
-        if(establecimientoOptional.isPresent()){
+        if (establecimientoOptional.isPresent()) {
             sector.setId(null);
             Establecimiento establecimiento = establecimientoOptional.get();
             establecimiento.agregarSector(sector);
             sectoresDAO.save(sector);
             establecimientosDAO.save(establecimiento);
-        }
-        else{
+
+        } else {
             return "not_found_error";
         }
 

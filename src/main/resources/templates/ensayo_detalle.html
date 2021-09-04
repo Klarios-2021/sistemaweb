@@ -7,41 +7,11 @@
     <body>
     <div th:insert="layout/template :: header"></div>
 
-    <div class="container">
+    <div class="container" th:object="${ensayo}">
         <div class="row">
-            <h2 class="p-5" name="id" th:text="'Ensayo - ID ' + ${ensayo.id}"></h2>
-            <div class="col">
-                <card class="card">
-                    <card class="card-body">
-                        <h5 class="card-title pb-4">Información</h5>
-                        <label class="form-label" for="realizo">Realizó</label>
-                        <span id="realizo" class="form-control" name="realizo" th:text="${ensayo.realizo}"/>
-                        <label class="form-label" for="fechaRealizacion">Fecha realización</label>
-                        <span id="fechaRealizacion" class="form-control" name="fechaRealizacion" th:text="${ensayo.fechaRealizacion}"/>
-                        <label class="form-label" for="controlo">Controló</label>
-                        <span id="controlo" class="form-control" name="controlo" th:text="${ensayo.controlo}"/>
-                        <label class="form-label" for="fechaControl">Fecha control</label>
-                        <span id="fechaControl" class="form-control" name="fechaControl" th:text="${ensayo.fechaControl}"/>
-                        <label class="form-label" for="observaciones">Observaciones</label>
-                        <span id="observaciones" class="form-control" name="observaciones" th:text="${ensayo.observaciones}"/>
-                        <label class="form-label" for="estado">Estado</label>
-                        <span id="estado" class="form-control" name="estado" th:text="${ensayo.estado}"/>
-                    </card>
-                </card>
-            </div>
-            <div class="col">
-                <card class="card">
-                    <card class="card-body">
-                        <h5 class="card-title pb-4">Mediciones</h5>
-                        <div th:each="dato: ${datos}">
-                            <div class="mb-3">
-                                <label class="form-label" for="dato" th:text="${dato.key}"></label>
-                                <span id="dato" class="form-control" name="dato" th:text="${dato.value}"/>
-                            </div>
-                        </div>
-                    </card>
-                </card>
-            </div>
+            <h2 class="p-5" name="id" th:text="'Ensayo - ID ' + *{id}"></h2>
+
+            <div th:insert="ensayos/form_ensayo_campos_genericos :: form-datos">
         </div>
         <a class="btn btn-primary" href="javascript:history.back()">
             <i class="fas fa-arrow-left"></i> Volver

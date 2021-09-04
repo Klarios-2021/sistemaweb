@@ -1,5 +1,9 @@
 package com.klarios.sistemaweb.models;
 
+import com.klarios.sistemaweb.models.ensayos.Ensayo;
+import com.klarios.sistemaweb.models.ensayos.EnsayoRecuperacionClase;
+import com.klarios.sistemaweb.models.ensayos.EnsayoVariableAmbiental;
+import com.klarios.sistemaweb.models.enums.VariableAmbiental;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +26,18 @@ public class Sala extends Material {
     List<Equipo> equipos = new ArrayList<>();
 
     public void agregarEquipo(Equipo equipo){this.equipos.add(equipo);}
+
+    @Transient
+    //Solo se usa para el front
+    List<Ensayo> ensayosHabilitados = List.of(
+            new EnsayoVariableAmbiental(VariableAmbiental.ILUMINACION),
+            new EnsayoVariableAmbiental(VariableAmbiental.RUIDO),
+            new EnsayoVariableAmbiental(VariableAmbiental.TEMPERATURA),
+            new EnsayoVariableAmbiental(VariableAmbiental.HUMEDAD),
+            new EnsayoRecuperacionClase());
+
+    public List<Ensayo> ensayosHabilitados (){
+        return this.ensayosHabilitados;
+    }
+
 }

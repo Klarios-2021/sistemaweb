@@ -1,7 +1,8 @@
 package com.klarios.sistemaweb;
 
 import com.klarios.sistemaweb.models.*;
-import com.klarios.sistemaweb.models.ensayos.EnsayoVariablesAmbientales;
+import com.klarios.sistemaweb.models.ensayos.Ensayo;
+import com.klarios.sistemaweb.models.ensayos.EnsayoVariableAmbiental;
 import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
 import com.klarios.sistemaweb.security.EncripcionPassword;
 import com.klarios.sistemaweb.security.Rol;
@@ -11,13 +12,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 public class DataLoader {
 
     public static void main(String[] args) {
+
 
         Contacto contacto = new Contacto();
         contacto.setNombre("Gonzalo");
@@ -25,24 +25,6 @@ public class DataLoader {
         contacto.setEmail("goner96@yahoo.com.ar");
         contacto.setTelefono("1134993753");
         contacto.setRol("Tester");
-
-        VersionDatos versionDatosVieja = new VersionDatos();
-        versionDatosVieja.setFecha(LocalDateTime.now());
-        versionDatosVieja.setObservaciones("Datos reales");
-        HashMap<String,String> datosViejos = new HashMap<>();
-        datosViejos.put("Medicion 1", "125");
-        datosViejos.put("Medicion 2", "Mala");
-        datosViejos.put("Medicion 3", "25.35");
-        versionDatosVieja.setDatos(datosViejos);
-
-        VersionDatos versionDatosActual = new VersionDatos();
-        versionDatosActual.setFecha(LocalDateTime.now());
-        versionDatosActual.setObservaciones("Datos retocados a solicitud del cliente");
-        HashMap<String,String> datosNuevos = new HashMap<>();
-        datosNuevos.put("Medicion 1", "500");
-        datosNuevos.put("Medicion 2", "Buena");
-        datosNuevos.put("Medicion 3", "25.35");
-        versionDatosActual.setDatos(datosNuevos);
 
         Equipo equipo = new Equipo();
         equipo.setNombre("Rotopercutor");
@@ -52,16 +34,15 @@ public class DataLoader {
         equipo.setModelo("BMW500");
         //equipo.setEnsayos(List.of(ensayo));
 
-        Ensayo ensayo = new EnsayoVariablesAmbientales();
+        Ensayo ensayo = new EnsayoVariableAmbiental();
         ensayo.setFechaRealizacion(LocalDate.now());
         ensayo.setRealizo("Juan Perez");
         ensayo.setFechaControl(LocalDate.now());
         ensayo.setControlo("Martin Lopez");
         ensayo.setProtocolo("V500124");
-        ensayo.setVersionesDatos(List.of(versionDatosVieja,versionDatosActual));
+        //ensayo.setVersionesDatos(List.of(versionDatosVieja,versionDatosActual));
         ensayo.setMaterial(equipo);
         ensayo.setEstado(EstadoEnsayo.DESAPROBADO);
-
 
         Sala sala = new Sala();
         sala.setNombre("Sala 1");
@@ -98,8 +79,6 @@ public class DataLoader {
         EntityManager em = factory.createEntityManager();
 
         em.getTransaction().begin();
-        em.persist(versionDatosVieja);
-        em.persist(versionDatosActual);
         em.persist(ensayo);
         em.persist(equipo);
         em.persist(sala);

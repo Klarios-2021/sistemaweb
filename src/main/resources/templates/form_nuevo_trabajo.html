@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Nuevo trabajo</title>
+    </head>
+
+    <body>
+        <div th:insert="layout/template :: header"></div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Nuevo trabajo</h1><br>
+                    <form class="g-3" th:action="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/trabajos
+                      (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${idSector})}"
+                          method="post" th:object="${trabajoForm}">
+                        <div>
+                            <label class="form-label">Limite inferior humedad</label>
+                            <input class="form-control-sm" type="text" name="limiteInferiorHumedad"
+                                   th:field="*{valoresComparacion.limiteInferiorHumedad}"/>
+
+                            <label class="form-label">Limite superior humedad</label>
+                            <input class="form-control-sm" type="text" name="limiteSuperiorHumedad"
+                                   th:field="*{valoresComparacion.limiteSuperiorHumedad}"/>
+
+                            <label class="form-label">Limite inferior ruido</label>
+                            <input class="form-control-sm" type="text" name="limiteInferiorRuido"
+                                   th:field="*{valoresComparacion.limiteInferiorRuido}"/>
+
+                            <label class="form-label">Limite superior ruido</label>
+                            <input class="form-control-sm" type="text" name="limiteSuperiorRuido"
+                                   th:field="*{valoresComparacion.limiteSuperiorRuido}"/>
+
+                            <label class="form-label">Limite inferior temperatura</label>
+                            <input class="form-control-sm" type="text" name="limiteInferiorTemperatura"
+                                   th:field="*{valoresComparacion.limiteInferiorTemperatura}"/>
+
+                            <label class="form-label">Limite superior temperatura</label>
+                            <input class="form-control-sm" type="text" name="limiteSuperiorTemperatura"
+                                   th:field="*{valoresComparacion.limiteSuperiorTemperatura}"/>
+
+                            <label class="form-label">Limite inferior iluminación</label>
+                            <input class="form-control-sm" type="text" name="limiteInferiorIluminacion"
+                                   th:field="*{valoresComparacion.limiteInferiorIluminacion}"/>
+
+                            <label class="form-label">Limite superior iluminación</label>
+                            <input class="form-control-sm" type="text" name="limiteSuperiorIluminacion"
+                                   th:field="*{valoresComparacion.limiteSuperiorIluminacion}"/>
+
+
+                        </div>
+
+                        <div th:each="sala, statSala: ${sector.salas}">
+                            <div>
+                                <h5 class="h5" th:text="${sala.nombre}"></h5>
+                                <div class="form-check form-check-inline" th:each="ensayo, statEnsayo: ${sala.ensayosHabilitados()}">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox"
+                                               th:field="*{ensayosXsala[__${statSala.index}__].ensayos}"
+                                               th:value="${ensayo.descripcion}"/>
+                                        <label class="form-check-label"  th:text="${ensayo.descripcion}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input hidden="true" th:attr="name='ensayosXsala['+${statSala.index}+'].sala'" th:value="${sala.id}"/>
+
+                            <div th:each="equipo, statEquipo: ${sala.equipos}">
+                                <h5 class="h5" style="padding-left: 1rem" th:text="${equipo.nombre}"></h5>
+                                <div class="form-check form-check-inline" th:each="ensayo, statEnsayo: ${equipo.ensayosHabilitados()}">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox"
+                                               th:field="*{ensayosXsala[__${statSala.index}__].ensayoXequipo[__${statEquipo.index}__].ensayos}"
+                                               th:value="${ensayo.descripcion}"/>
+                                        <label class="form-check-label" th:text="${ensayo.descripcion}"></label>
+                                    </div>
+                                </div>
+                                <input hidden="true" th:attr="name='ensayosXsala['+${statSala.index}+'].ensayoXequipo['+${statEquipo.index}+'].equipo'"
+                                       th:value="${equipo.id}"/>
+                            </div>
+
+                        </div>
+
+                        <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                        <a class="btn btn-primary" href="javascript: history.back()">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <footer th:replace="layout/template :: footer"></footer>
+    </body>
+</html>

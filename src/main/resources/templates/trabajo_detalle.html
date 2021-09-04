@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:insert="layout/template :: head"></div>
+        <title>Trabajo - Detalles</title>
+    </head>
+    <body>
+    <div th:insert="layout/template :: header"></div>
+
+    <div class="container">
+        <div class="row pb-5">
+            <h2 class="p-5" name="id" th:text="'Trabajo Nº ' + ${trabajo.id}"></h2>
+            <div class="col-6 h-100">
+               <card class="card">
+                   <div class="card-body">
+                       <h5 class="card-title pb-4">Información</h5>
+                       <h6 class="card-subtitle mb-2 text-muted">Observaciones</h6>
+                       <span name="razonSocial" th:text="${trabajo.observaciones ?: '-' }"></span>
+                   </div>
+               </card>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>ID ensayo</th>
+                    <th>Descripción</th>
+                    <th>Material</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr th:each="ensayo: ${trabajo.ensayos}">
+                    <td th:text="${ensayo.id}"></td>
+                    <td th:text="${ensayo.descripcion}"></td>
+                    <td th:text="${ensayo.material.tag}"></td>
+                    <td th:text="${ensayo.estado}"></td>
+                    <td>
+                        <!--a th:style="${ensayo.estado.toString() != 'PENDIENTE' ? 'pointer-events: none; color: #636d7c' : ''}"
+                           th:href="@{/trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion(idTrabajo = ${trabajo.id}, idEnsayo = ${ensayo.id})}">
+                            <i class="fas fa-vials"></i></i>
+                        </a-->
+                        <a th:if="${ensayo.estado.toString() == 'PENDIENTE'}"
+                           th:href="@{/trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion(idTrabajo = ${trabajo.id}, idEnsayo = ${ensayo.id})}">
+                            <i class="fas fa-vials"></i></i>
+                        </a>
+                        <a th:href="@{/trabajos/{idTrabajo}/ensayos/{idEnsayo}(idTrabajo = ${trabajo.id}, idEnsayo = ${ensayo.id})}">
+                        <i class="fas fa-arrow-alt-circle-right"></i>
+                    </a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div>
+                    <!--button class="btn btn-primary"
+                            onclick="document.getElementById('form-nueva-div').style.display = 'block'">
+                        Agregar ensayo
+                    </button>
+                    <a class="btn btn-primary" th:href="@{/laboratorios/{idTrabajo}(idTrabajo=${trabajo.id})}">
+                        <i class="far fa-edit"></i> Editar
+                    </a-->
+                    <a class="btn btn-primary" href="javascript:history.back()">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <footer th:replace="layout/template :: footer"></footer>
+
+    </body>
+</html>

@@ -75,6 +75,11 @@
                 Agregar sala
             </button>
             <a class="btn btn-primary"
+               th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/trabajos/nuevo
+                       (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}">
+                <i class="far fa-edit"></i> Nuevo trabajo
+            </a>
+            <a class="btn btn-primary"
                th:href="@{/laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/edicion
                        (idLaboratorio=${idLaboratorio},idEstablecimiento=${idEstablecimiento},idSector=${sector.id})}">
                 <i class="far fa-edit"></i> Editar

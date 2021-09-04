@@ -1,9 +1,12 @@
 package com.klarios.sistemaweb.controllers;
 
 import com.klarios.sistemaweb.filters.FiltroEnsayos;
+import com.klarios.sistemaweb.forms.FormRealizacionEnsayo;
 import com.klarios.sistemaweb.models.*;
-import com.klarios.sistemaweb.models.ensayos.EnsayoVariablesAmbientales;
+import com.klarios.sistemaweb.models.ensayos.Ensayo;
+import com.klarios.sistemaweb.models.ensayos.EnsayoVariableAmbiental;
 import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
+import com.klarios.sistemaweb.models.enums.Unidad;
 import com.klarios.sistemaweb.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,17 +17,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 
 @Controller
 public class EnsayosController {
 
     @Autowired
     EnsayosDAO ensayosDAO;
+
+    @Autowired
+    EnsayosVariablesAmbientalesDAO ensayosVariablesAmbientalesDAO;
 
     @Autowired
     LaboratoriosDAO laboratoriosDAO;
@@ -36,10 +39,11 @@ public class EnsayosController {
     MaterialesDAO materialesDAO;
 
     @Autowired
-    VersionDatosDAO versionDatosDAO;
+    EquiposDAO equiposDAO;
 
     @Autowired
-    EquiposDAO equiposDAO;
+    MedicionesDAO medicionesDAO;
+
 
     @GetMapping("ensayos")
     public String getEnsayos(Model model) {
@@ -62,17 +66,76 @@ public class EnsayosController {
 
         if(ensayoOptional.isPresent()){
 
-            Map<String,String> datos = new TreeMap<String,String>(ensayoOptional.get().getVersionesDatos().get(0).getDatos());
+           // Map<String,String> datos = new TreeMap<String,String>(ensayoOptional.get().getVersionesDatos().get(0).getDatos());
             model.addAttribute("ensayo",ensayoOptional.get());
 
-            model.addAttribute("datos",datos);
+            //model.addAttribute("datos",datos);
             return "ensayo_detalle";
         }
         else{
             return "not_found_error";
         }
+    }
+
+    @GetMapping("trabajos/{idTrabajo}/ensayos/{idEnsayo}")
+    public String getEnsayoTrabajo(@PathVariable("idEnsayo") String idEnsayo,
+                            Model model) {
+
+        System.out.println("Se solicito un ensayo");
+
+        Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
+
+        if(ensayoOptional.isPresent()){
+            model.addAttribute("ensayo",ensayoOptional.get());
+            return "ensayo_detalle";
+        }
+        else{
+            return "not_found_error";
+        }
+    }
+
+    @GetMapping("trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion")
+    public String getFormRealizacionEnsayo(@PathVariable("idTrabajo") String idTrabajo, @PathVariable("idEnsayo") String idEnsayo, Model model) {
+        System.out.println("Se solicito el formulario para completar ensayo");
+
+        Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
+
+        if(ensayoOptional.isPresent()){
+            FormRealizacionEnsayo formRealizacionEnsayo = new FormRealizacionEnsayo();
+            formRealizacionEnsayo.setEnsayo(ensayoOptional.get());
+            model.addAttribute("formRealizacionEnsayo", formRealizacionEnsayo);
+            model.addAttribute("idTrabajo",idTrabajo);
+            return "form_realizacion_ensayo";
+        }
+        else{
+            return "not_found_error";
+        }
+    }
+
+    @PostMapping("trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion")
+    public String cargarRealizacionEnsayo(@PathVariable("idTrabajo") String idTrabajo,
+                                          @PathVariable("idEnsayo") String idEnsayo,
+                                          FormRealizacionEnsayo formRealizacionEnsayo,
+                                          Model model) {
+
+        System.out.println("Se está cargando la realización de un ensayo");
+
+        Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
+
+        if(ensayoOptional.isPresent()){
+            Ensayo ensayo = ensayoOptional.get();
+            ensayo.setearValores(formRealizacionEnsayo);
+            ensayo.validar();
+            ensayosDAO.save(ensayo);
+            return "redirect:/trabajos/" + idTrabajo;
+        }
+        else{
+            return "not_found_error";
+        }
+        //ensayosDAO.save(realizacionEnsayo.getEnsayo());
 
     }
+
     @GetMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos/nuevo")
     public String getFormNuevoEnsayoSala(@PathVariable("idLaboratorio") String idLaboratorio,
                                          @PathVariable("idEstablecimiento") String idEstablecimiento,
@@ -80,7 +143,6 @@ public class EnsayosController {
                                          @PathVariable("idSala") String idSala,
                                          Ensayo ensayo,
                                          FiltroEnsayos filtroEnsayos,
-                                         VersionDatos versionDatos,
                                          Model model) {
 
         System.out.println("Se solicitó el formulario para crear un nuevo ensayo de sala");
@@ -89,9 +151,9 @@ public class EnsayosController {
         Optional<Sala> salaOptional = salasDAO.findById(Long.parseLong(idSala));
 
         if(salaOptional.isPresent() && filtroEnsayos.getTipoEnsayo().equals("var-amb")){
-            EnsayoVariablesAmbientales ensayoVariablesAmbientales = new EnsayoVariablesAmbientales();
-            ensayoVariablesAmbientales.setMaterial(salaOptional.get());
-            model.addAttribute("cantMediciones", ensayoVariablesAmbientales.obtenerMedicionesNecesarias());
+            EnsayoVariableAmbiental ensayoVariableAmbiental = new EnsayoVariableAmbiental();
+            ensayoVariableAmbiental.setMaterial(salaOptional.get());
+            model.addAttribute("cantMediciones", ensayoVariableAmbiental.cantidadMedicionesNecesarias());
         }
 
         model.addAttribute("idLaboratorio", idLaboratorio);
@@ -100,9 +162,7 @@ public class EnsayosController {
         model.addAttribute("idSala", idSala);
         model.addAttribute("filtroEnsayos", filtroEnsayos);
         model.addAttribute("ensayo", ensayo);
-
-        model.addAttribute("versionDatos",versionDatos);
-
+        
         return "form_nuevo_ensayo_sala";
     }
 
@@ -113,7 +173,6 @@ public class EnsayosController {
                                          @PathVariable("idSala") String idSala,
                                          @PathVariable("idEquipo") String idEquipo,
                                          FiltroEnsayos filtroEnsayos,
-                                         VersionDatos versionDatos,
                                          Ensayo ensayo,
                                          Model model) {
 
@@ -123,9 +182,9 @@ public class EnsayosController {
         Optional<Equipo> equipoOptional = equiposDAO.findById(Long.parseLong(idEquipo));
 
         if(equipoOptional.isPresent() && filtroEnsayos.getTipoEnsayo().equals("var-amb")){
-            EnsayoVariablesAmbientales ensayoVariablesAmbientales = new EnsayoVariablesAmbientales();
-            ensayoVariablesAmbientales.setMaterial(equipoOptional.get());
-            model.addAttribute("cantMediciones", ensayoVariablesAmbientales.obtenerMedicionesNecesarias());
+            EnsayoVariableAmbiental ensayoVariableAmbiental = new EnsayoVariableAmbiental();
+            ensayoVariableAmbiental.setMaterial(equipoOptional.get());
+            model.addAttribute("cantMediciones", ensayoVariableAmbiental.cantidadMedicionesNecesarias());
         }
 
         model.addAttribute("idLaboratorio", idLaboratorio);
@@ -135,7 +194,6 @@ public class EnsayosController {
         model.addAttribute("idEquipo", idEquipo);
         model.addAttribute("filtroEnsayos", filtroEnsayos);
         model.addAttribute("ensayo",ensayo);
-        model.addAttribute("versionDatos",versionDatos);
 
         return "form_nuevo_ensayo_equipo";
     }
@@ -143,17 +201,17 @@ public class EnsayosController {
     public void guardarEnsayo(Material material, Ensayo ensayo, String tipoEnsayo){
         switch (tipoEnsayo){
             case "var-amb":
-                EnsayoVariablesAmbientales ensayoVariablesAmbientales = new EnsayoVariablesAmbientales();
-                ensayoVariablesAmbientales.setMaterial(ensayo.getMaterial());
-                ensayoVariablesAmbientales.setProtocolo(ensayo.getProtocolo());
-                ensayoVariablesAmbientales.setControlo(ensayo.getControlo());
-                ensayoVariablesAmbientales.setFechaControl(ensayo.getFechaControl());
-                ensayoVariablesAmbientales.setFechaRealizacion(ensayo.getFechaRealizacion());
-                ensayoVariablesAmbientales.setRealizo(ensayo.getRealizo());
-                ensayoVariablesAmbientales.setVersionesDatos(ensayo.getVersionesDatos());
-                ensayoVariablesAmbientales.setMaterial(material);
-                ensayoVariablesAmbientales.setEstado(EstadoEnsayo.APROBADO);
-                ensayosDAO.save(ensayoVariablesAmbientales);
+                EnsayoVariableAmbiental ensayoVariableAmbiental = new EnsayoVariableAmbiental();
+                ensayoVariableAmbiental.setMaterial(ensayo.getMaterial());
+                ensayoVariableAmbiental.setProtocolo(ensayo.getProtocolo());
+                ensayoVariableAmbiental.setControlo(ensayo.getControlo());
+                ensayoVariableAmbiental.setFechaControl(ensayo.getFechaControl());
+                ensayoVariableAmbiental.setFechaRealizacion(ensayo.getFechaRealizacion());
+                ensayoVariableAmbiental.setRealizo(ensayo.getRealizo());
+                //ensayoVariablesAmbientales.setVersionesDatos(ensayo.getVersionesDatos());
+                ensayoVariableAmbiental.setMaterial(material);
+                ensayoVariableAmbiental.setEstado(EstadoEnsayo.APROBADO);
+                ensayosDAO.save(ensayoVariableAmbiental);
                 break;
             default:
                 ensayo.setEstado(EstadoEnsayo.APROBADO);
@@ -166,7 +224,6 @@ public class EnsayosController {
     @PostMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos")
     public String crearEnsayoSala (@PathVariable("idSala") String idSala,
                                   @Valid Ensayo ensayo,
-                                  VersionDatos versionDatos,
                                   FiltroEnsayos filtroEnsayos,
                                   Errors errores,
                                   Model model) {
@@ -180,12 +237,8 @@ public class EnsayosController {
         Optional<Sala> salaOptional = salasDAO.findById(Long.parseLong(idSala));
 
         if(salaOptional.isPresent()){
-            versionDatos.setFecha(LocalDateTime.now());
-            versionDatos.setObservaciones("Versión inicial");
-            versionDatosDAO.save(versionDatos);
-
             ensayo.setId(null);
-            ensayo.agregarVersionDatos(versionDatos);
+            //ensayo.agregarVersionDatos(versionDatos);
 
             guardarEnsayo(salaOptional.get(), ensayo, filtroEnsayos.getTipoEnsayo());
         }
@@ -199,7 +252,6 @@ public class EnsayosController {
     @PostMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/equipos/{idEquipo}/ensayos")
     public String crearEnsayoEquipo(@PathVariable("idEquipo") String idEquipo,
                                     @Valid Ensayo ensayo,
-                                    VersionDatos versionDatos,
                                     FiltroEnsayos filtroEnsayos,
                                     Errors errores,
                                     Model model) {
@@ -213,12 +265,9 @@ public class EnsayosController {
         Optional<Equipo> equipoOptional = equiposDAO.findById(Long.parseLong(idEquipo));
 
         if(equipoOptional.isPresent()){
-            versionDatos.setFecha(LocalDateTime.now());
-            versionDatos.setObservaciones("Versión inicial");
-            versionDatosDAO.save(versionDatos);
 
             ensayo.setId(null);
-            ensayo.agregarVersionDatos(versionDatos);
+            //ensayo.agregarVersionDatos(versionDatos);
 
             guardarEnsayo(equipoOptional.get(), ensayo, filtroEnsayos.getTipoEnsayo());
         }
