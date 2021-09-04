@@ -11,6 +11,8 @@ import com.klarios.sistemaweb.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,11 +67,7 @@ public class EnsayosController {
         Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
 
         if(ensayoOptional.isPresent()){
-
-           // Map<String,String> datos = new TreeMap<String,String>(ensayoOptional.get().getVersionesDatos().get(0).getDatos());
             model.addAttribute("ensayo",ensayoOptional.get());
-
-            //model.addAttribute("datos",datos);
             return "ensayo_detalle";
         }
         else{
@@ -96,6 +94,7 @@ public class EnsayosController {
 
     @GetMapping("trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion")
     public String getFormRealizacionEnsayo(@PathVariable("idTrabajo") String idTrabajo, @PathVariable("idEnsayo") String idEnsayo, Model model) {
+
         System.out.println("Se solicito el formulario para completar ensayo");
 
         Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
@@ -115,7 +114,8 @@ public class EnsayosController {
     @PostMapping("trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion")
     public String cargarRealizacionEnsayo(@PathVariable("idTrabajo") String idTrabajo,
                                           @PathVariable("idEnsayo") String idEnsayo,
-                                          FormRealizacionEnsayo formRealizacionEnsayo,
+                                          @Valid FormRealizacionEnsayo formRealizacionEnsayo,
+                                          BindingResult bindingResult,
                                           Model model) {
 
         System.out.println("Se está cargando la realización de un ensayo");
@@ -123,19 +123,27 @@ public class EnsayosController {
         Optional<Ensayo> ensayoOptional = ensayosDAO.findById(Long.parseLong(idEnsayo));
 
         if(ensayoOptional.isPresent()){
-            Ensayo ensayo = ensayoOptional.get();
-            ensayo.setearValores(formRealizacionEnsayo);
-            ensayo.validar();
-            ensayosDAO.save(ensayo);
-            return "redirect:/trabajos/" + idTrabajo;
+            if(bindingResult.hasErrors()){
+                formRealizacionEnsayo.setEnsayo(ensayoOptional.get());
+                model.addAttribute("formRealizacionEnsayo", formRealizacionEnsayo);
+                model.addAttribute("idTrabajo",idTrabajo);
+                return "form_realizacion_ensayo";
+            }
+            else{
+                Ensayo ensayo = ensayoOptional.get();
+                ensayo.setearValores(formRealizacionEnsayo);
+                ensayo.validar();
+                ensayosDAO.save(ensayo);
+                return "redirect:/trabajos/" + idTrabajo;
+            }
         }
         else{
             return "not_found_error";
         }
-        //ensayosDAO.save(realizacionEnsayo.getEnsayo());
 
     }
 
+    /*
     @GetMapping("laboratorios/{idLaboratorio}/establecimientos/{idEstablecimiento}/sectores/{idSector}/salas/{idSala}/ensayos/nuevo")
     public String getFormNuevoEnsayoSala(@PathVariable("idLaboratorio") String idLaboratorio,
                                          @PathVariable("idEstablecimiento") String idEstablecimiento,
@@ -277,6 +285,8 @@ public class EnsayosController {
 
         return "redirect:";
     }
+
+     */
 
 
 

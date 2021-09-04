@@ -10,10 +10,13 @@ import com.klarios.sistemaweb.models.ensayos.mediciones.RegistroMedicionRecupera
 import com.klarios.sistemaweb.models.enums.EstadoEnsayo;
 import com.klarios.sistemaweb.models.enums.VariableAmbiental;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,11 +27,15 @@ import java.util.List;
 public class FormRealizacionEnsayo {
     String descripcion;
     Long id;
+    @NotEmpty
     String realizo;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull
     LocalDate fechaRealizacion;
+    @NotEmpty
     String controlo;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull
     LocalDate fechaControl;
     String protocolo;
     String observaciones;

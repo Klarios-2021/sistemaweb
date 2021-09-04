@@ -29,7 +29,34 @@
                        th:value="*{ensayo.unidadMediciones()}"
                        th:attr="name='medicionesRecuperacion['+__${i}__+'].medicion.unidad'"/>
             </div>
-        </div-->
+        </div>
+    </div>
+
+    <div th:fragment="form-datos-consulta">
+
+        <div class="mb-3">
+            <label class="form-label">Concentración inicial</label>
+            <input class="form-control-sm" type="text" th:field="*{concentracionInicial.valor}"/>
+            <input readonly class="form-control-sm" type="text"
+                   th:value="*{unidadMediciones()}"
+                   th:attr="name='concentracionInicial.unidad'"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Concentración máxima</label>
+            <input class="form-control-sm" type="text" th:field="*{concentracionMaxima.valor}"/>
+            <input readonly class="form-control-sm" type="text"
+                   th:value="*{unidadMediciones()}"
+                   th:attr="name='concentracionMaxima.unidad'"/>
+        </div>
+        <div th:each="i: *{#numbers.sequence(0, 19)}">
+            <div class="mb-3">
+                <label class="form-label"th:text="'Medición ' + ${i+1}">Medición</label>
+                <input class="form-control-sm" type="text" th:field="*{registros[__${i}__].medicion.valor}"/>
+                <input readonly class="form-control-sm"
+                       th:value="*{unidadMediciones()}"
+                       th:attr="name='registros['+__${i}__+'].medicion.unidad'"/>
+            </div>
+        </div>
     </div>
 </body>
 </html>

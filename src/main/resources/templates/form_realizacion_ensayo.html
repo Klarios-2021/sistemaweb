@@ -3,8 +3,29 @@
     <head>
         <div th:insert="layout/template :: head"></div>
         <title>Ensayo - Detalles</title>
+
+        <script type="text/javascript">
+            function setearComportamiento (){
+                for(element of document.getElementsByClassName('no-vacio')){
+                    element.oninput = modificarSubmit
+                }
+            }
+            function modificarSubmit(){
+                console.log(document.getElementById('realizo').value)
+                for(element of document.getElementsByClassName('no-vacio')){
+                    if(element.value === ''){
+                        document.getElementById('submit').disabled = true;
+                        break
+                    }
+                    document.getElementById('submit').disabled = false;
+                }
+            }
+            function validarCampos(){
+
+            }
+        </script>
     </head>
-    <body>
+    <body onload="setearComportamiento()">
     <div th:insert="layout/template :: header"></div>
 
     <form class="g-3" th:action="@{/trabajos/{idTrabajo}/ensayos/{idEnsayo}/realizacion(idTrabajo = ${idTrabajo}, idEnsayo = ${formRealizacionEnsayo.ensayo.id})}"
@@ -12,12 +33,9 @@
         <div class="container">
             <div class="row">
                 <h2 class="p-5" name="id" th:text="'Ensayo - ID ' + *{ensayo.id}"></h2>
-                <div th:if="*{ensayo.descripcion.contains('Ensayo de variable ambiental')}" th:insert="ensayos/form_ensayo_variables_ambientales :: form-datos"></div>
-                <div th:if="*{ensayo.descripcion.contains('Ensayo de recuperación de clase')}" th:insert="ensayos/form_ensayo_recuperacion :: form-datos"></div>
-
-                <div th:insert="ensayos/form_ensayo_campos_genericos :: form-datos"/>
+                <div th:insert="ensayos/form_ensayo_completo :: form-datos"/>
                 <!--input hidden="true" th:attr="name='ensayo'" th:value="*{ensayo.descripcion}"/-->
-                <input class="btn btn-success" type="submit" name="cargar" value="Cargar">
+                <input class="btn btn-success" id="submit" type="submit" name="cargar" value="Cargar" disabled>
                 <a class="btn btn-primary" href="javascript:history.back()">
                     <i class="fas fa-arrow-left"></i> Volver
                 </a>

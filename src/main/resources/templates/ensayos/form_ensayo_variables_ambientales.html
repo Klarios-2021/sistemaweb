@@ -6,7 +6,6 @@
 </head>
 <body>
     <div th:fragment="form-datos">
-
         <label class="form-label" for="variableMedida">Variable medida: </label>
         <span th:text="*{ensayo.variableAmbiental}" id="variableMedida"></span>
 
@@ -17,6 +16,19 @@
                 <input readonly class="form-control-sm"
                        th:value="*{ensayo.unidadMediciones()}"
                        th:attr="name='medicionesAmbientales['+__${i}__+'].medicion.unidad'"/>
+            </div>
+        </div>
+    </div>
+    <div th:fragment="form-datos-consulta">
+        <label class="form-label" for="variableMedida">Variable medida: </label>
+        <span th:text="*{variableAmbiental}" id="variableMedida"></span>
+
+        <div th:each="i: *{#numbers.sequence(0, cantidadMedicionesNecesarias() - 1)}">
+            <div class="mb-3">
+                <label class="form-label"th:text="'Medición ' + ${i+1}">Medición</label>
+                <input class="form-control-sm" type="text" th:field="*{registros[__${i}__].medicion.valor}"/>
+                <input readonly class="form-control-sm"
+                       th:value="*{unidadMediciones()}"/>
             </div>
         </div>
     </div>

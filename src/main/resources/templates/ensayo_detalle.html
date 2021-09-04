@@ -3,20 +3,30 @@
     <head>
         <div th:insert="layout/template :: head"></div>
         <title>Ensayo - Detalles</title>
+
+        <script type="text/javascript">
+            function deshabilitarCampos(){
+                datos = document.getElementsByTagName("input")
+                for (dato of datos){
+                    dato.disabled = true;
+                }
+            }
+        </script>
+
     </head>
-    <body>
-    <div th:insert="layout/template :: header"></div>
+    <body onload="deshabilitarCampos()">
+        <div th:insert="layout/template :: header"></div>
 
-    <div class="container" th:object="${ensayo}">
-        <div class="row">
-            <h2 class="p-5" name="id" th:text="'Ensayo - ID ' + *{id}"></h2>
+        <div class="container" th:object="${ensayo}">
+            <div class="row">
+                <h2 class="p-5" name="id" th:text="'Ensayo - ID ' + *{id}"></h2>
 
-            <div th:insert="ensayos/form_ensayo_campos_genericos :: form-datos">
+                <div th:insert="ensayos/form_ensayo_completo :: form-datos-consulta">
+            </div>
+            <a class="btn btn-primary" href="javascript:history.back()">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
         </div>
-        <a class="btn btn-primary" href="javascript:history.back()">
-            <i class="fas fa-arrow-left"></i> Volver
-        </a>
-    </div>
     </div>
 
     <footer th:replace="layout/template :: footer"></footer>
